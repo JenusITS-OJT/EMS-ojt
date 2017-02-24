@@ -72,6 +72,13 @@ require ('F_Connection.php');
           <ul class="treeview-menu">
             <li><a href="T_SetCredential.php"><i class="fa fa-circle-o"></i>Set Credential</a></li>
             <li><a href="T_ManageAttendance.php"><i class="fa fa-circle-o"></i>Manage Attendance</a></li>
+            <li class="treeview"> 
+            <i class="fa fa-circle"></i> <span>Manage SChedule</span>
+            	<ul class="treeview-menu">
+            	<a href="T_Scheduling.php"><i class="fa fa-circle-o"></i>Set Schedule</a>
+            	<a href="T_Scheduling3.php"><i class="fa fa-circle-o"></i>Update Schedule</a>
+            	</ul>
+            	</li>
             <li><a href="T_GeneratePayroll.php"><i class="fa fa-circle-o"></i>Generate Payroll</a></li>
           </ul>
         </li>
