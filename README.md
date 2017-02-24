@@ -1,1 +1,2 @@
-# EMS-ojt
+# ems
+Employee Management System by PUP OJT
