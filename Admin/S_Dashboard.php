@@ -45,7 +45,7 @@
           <small>| Dashboard</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="S_Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a href="Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
           <li class="active">Dashboard</li>
         </ol>
       </section>
@@ -55,112 +55,145 @@
         <!-- Info boxes -->
         <div class="row">
 
-          <div class="col-md-4 col-sm-6 col-xs-12">
+          <!-- Employee Count -->
+          <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-              <div class="info-box bg-maroon">
-                <span class="info-box-icon"><i class="glyphicon glyphicon-pencil"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Newly Hired</span>
-                  <span class="info-box-number">
-                    <?php
+              <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Employees</span>
+                <span class="info-box-number">
+                  <?php
                       $string = $result = mysqli_query($con, "SELECT * FROM employee 
-                          WHERE `date_hired` is null or `date_hired` = '0000-00-00'");
+                          WHERE `date_hired` is not null or `date_hired` != '0000-00-00'");
                       $yes = mysqli_num_rows($result);
                       echo $yes;
                     ?>
-
-                     New Employees</span>
-                  <small>As of <?php echo date("F")?> <?php echo date("Y")?></small>
-                </div>
+                    Employees</span>
+                  <small>As of <?php echo date("F Y")?></small>
+                </span>
               </div>
+              <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
           </div>
           <!-- /.col -->
 
-          <div class="col-md-4 col-sm-6 col-xs-12">
+          <!-- System Log Count -->
+          <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-              <div class="info-box bg-blue">
-                <span class="info-box-icon"><i class="glyphicon glyphicon-pencil"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Registration</span>
-                  <span class="info-box-number">
-                    <?php
-                      $string = $result = mysqli_query($con, "SELECT * FROM employee 
-                          WHERE `date_hired` is not null and `date_hired` != '0000-00-00'");
-                      $yes = mysqli_num_rows($result);
-                      echo $yes;
-                    ?> Inactive Employees</span>
-                  <small><?php echo date("F")?> <?php echo date("Y")?></small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /.col -->
+              <span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
 
-          <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-              <div class="info-box bg-light-blue">
-                <span class="info-box-icon"><i class="glyphicon glyphicon-user"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Employees</span>
-                  <span class="info-box-number">
-                    <?php
-                      $string = $result = mysqli_query($con, "SELECT * FROM employee");
+              <div class="info-box-content">
+                <span class="info-box-text">Online</span>
+                <span class="info-box-number">
+                  <?php
+                      $string = $result = mysqli_query($con, "SELECT * FROM log 
+                          WHERE DATE_FORMAT(`Login_Time`,'%m-%d-%Y') = DATE_FORMAT(NOW(),'%m-%d-%Y') AND `Logout_Time` = '0000-00-00'");
                       $yes = mysqli_num_rows($result);
                       echo $yes;
                     ?>
-                   Total Employees</span>
-                  <small><?php echo date("F")?> <?php echo date("Y")?></small>
-                </div>
+                    Online</span>
+                  <small>As of <?php echo date("F d, Y")?></small>
+                </span>
               </div>
+              <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
           </div>
           <!-- /.col -->
+
+          <!-- Attendance Count -->
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Time-In</span>
+                <span class="info-box-number">
+                  <?php
+                      $string = $result = mysqli_query($con, "SELECT * FROM `time` 
+                          WHERE DATE_FORMAT(`Time_In`,'%m-%d-%Y') = DATE_FORMAT(NOW(),'%m-%d-%Y') AND `Time_Out` = '0000-00-00'");
+                      $yes = mysqli_num_rows($result);
+                      echo $yes;
+                    ?>
+                    Present</span>
+                  <small>As of <?php echo date("F d, Y")?></small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- On Break Count -->
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Break</span>
+                <span class="info-box-number">
+                  <?php
+                      $string = $result = mysqli_query($con, "SELECT * FROM `time` 
+                          WHERE DATE_FORMAT(`Break_In`,'%m-%d-%Y') = DATE_FORMAT(NOW(),'%m-%d-%Y') AND `Break_Out` = '0000-00-00'");
+                      $yes = mysqli_num_rows($result);
+                      echo $yes;
+                    ?>
+                    On Break</span>
+                  <small>As of <?php echo date("F d, Y")?></small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
         </div>
         <!-- /.row -->
         
         <div class="row">
 
           <!-- timein -->
-    <div class="col-md-12">
-  <script>
-var d = new Date(<?php echo time() * 1000 ?>);
+          <div class="col-md-12">
+            <script>
+              var d = new Date(<?php echo time() * 1000 ?>);
 
-function updateClock() {
-  // Increment the date
-  d.setTime(d.getTime() + 1000);
+              function updateClock() {
+                // Increment the date
+                d.setTime(d.getTime() + 1000);
 
-  // Translate time to pieces
-  var currentHours = d.getHours();
-  var currentMinutes = d.getMinutes();
-  var currentSeconds = d.getSeconds();
+                // Translate time to pieces
+                var currentHours = d.getHours();
+                var currentMinutes = d.getMinutes();
+                var currentSeconds = d.getSeconds();
 
-  // Add the beginning zero to minutes and seconds if needed
-  currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
-  currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
+                // Add the beginning zero to minutes and seconds if needed
+                currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
+                currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
 
-  // Determine the meridian
-  var meridian = (currentHours < 12) ? "AM" : "PM";
+                // Determine the meridian
+                var meridian = (currentHours < 12) ? "AM" : "PM";
 
-  // Convert the hours out of 24-hour time
-  currentHours = (currentHours > 12) ? currentHours - 12 : currentHours;
-  currentHours = (currentHours == 0) ? 12 : currentHours;
+                // Convert the hours out of 24-hour time
+                currentHours = (currentHours > 12) ? currentHours - 12 : currentHours;
+                currentHours = (currentHours == 0) ? 12 : currentHours;
 
-  // Generate the display string
-  var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + meridian;
+                // Generate the display string
+                var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + meridian;
 
-  // Update the time
-  document.getElementById("clock").firstChild.nodeValue = currentTimeString;
-}
+                // Update the time
+                document.getElementById("clock").firstChild.nodeValue = currentTimeString;
+              }
 
-window.onload = function() {
-  updateClock();
-  setInterval('updateClock()', 1000);
-}
-</script>
-<body>
- <h1 align="center">
-  <div id="clock">&nbsp;</div></h1>
+              window.onload = function() {
+                updateClock();
+                setInterval('updateClock()', 1000);
+              }
+            </script>
+            <h1 align="center"><div id="clock">&nbsp;</div></h1>
           
             <h3 align="center">            
               <?php $today = date("l, F j, Y");
@@ -200,24 +233,25 @@ window.onload = function() {
 
               ?>            
             </h3>
-            </body>
 
             <center>
-                      <form action="F_Time_.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
-                        <button type="submit" class="btn btn-success btn-flat"  value="Start-Lunch">
-                          <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
-                        </button>
-                        <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                        <input type="hidden" name="userid" value="<?php echo $userid; ?>">
-                      </form>
-            </center>
-            <br>
-            <br>
-            <div class="col-md-6">
+              <form action="F_Time_.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
+                <button type="submit" class="btn btn-success btn-flat"  value="Start-Lunch">
+                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
+                </button>
+                <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+                <input type="hidden" name="userid" value="<?php echo $userid; ?>">
+              </form>
+            </center>          
+            <br><br>
+
+          </div>
+          
+          <div class="col-md-6">
             <div class="box box-warning">
               <div class="box-header with-border">
-                <h3 class="box-title text-blue">Your Time Record,<br><b><?php $today = date("l F j, Y");
-              echo $today; ?></b></h3>                
+                <h3 class="box-title">Your Time Record, <b><?php $today = date("l F j, Y");
+              echo $today; ?></h3>                
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -327,14 +361,14 @@ window.onload = function() {
               <div class="box-header with-border">
                 <h3 class="box-title">Time Logs for today, <b><?php $today = date("l F j, Y");
               echo $today; ?></b></h3>
-                <div class="box-tools pull-right">
+                <!-- <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
                   </button>
                   <button type="button" class="btn btn-box-tool" data-widget="remove">
                     <i class="fa fa-times"></i>
                   </button>
-                </div>
+                </div> -->
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -471,7 +505,6 @@ window.onload = function() {
               </div>
             </div>
           </div>
-        </div>
 
      
 
@@ -610,7 +643,7 @@ window.onload = function() {
               </div>
               <!-- /.box-body -->
               <div class="box-footer" align="right">
-                <a href="T_SetHireDate.php" class="btn btn-default">View All Time Logs</a>
+                <a href="Q_SystemLog.php" class="btn btn-default">View All Time Logs</a>
               </div>
             </div>
           </div>
