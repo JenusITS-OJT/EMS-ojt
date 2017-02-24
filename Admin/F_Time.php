@@ -5,11 +5,10 @@ require ("F_Connection.php");
     $userid = $_GET['userid'];
     $id = $_GET['id'];
 
-    $result = mysqli_query($con, "SELECT `Time_In`, `Break_In`, `Break_Out`, `Time_Out` FROM `time` WHERE `User_ID` = '$userid' AND `ID` = '$id' AND DATE(`Time_In`) = CURDATE() ORDER BY `Time_In` DESC LIMIT 1");
+    $result = mysqli_query($con, "SELECT `Time_In`, `Break_In`, `Break_Out` FROM `time` WHERE `User_ID` = '$userid' AND `ID` = '$id' AND DATE(`Time_In`) = CURDATE() ORDER BY `Time_In` DESC LIMIT 1");
     while($row = mysqli_fetch_array($result)){
 
     $timein = $row[0];
-    $timeout = $row[3];
     $breakin = $row[1];
     $breakout = $row[2];
 }
@@ -51,7 +50,7 @@ if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout == '0000-00-00
         myResponse($stm,$msg,$userid);
     }
 
-// Time-Out
+/*// Time-Out
 if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00'){
         $msg = "Updated";
         $sql="UPDATE `time`
@@ -61,7 +60,7 @@ if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00
         $stm = mysqli_query($con, $sql);
         myResponse($stm,$msg,$userid);
     }
-
+*/
 //Again
 if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout != '0000-00-00 00:00:00'){
     $msg = "Added";
