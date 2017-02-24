@@ -46,7 +46,7 @@
           <small>| Team</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="S_Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a href="Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
           <li><a href="#"><i class="fa fa-gear"></i>Configuration Management</a></li>
           <li class="active">Team</li>
         </ol>
@@ -146,7 +146,6 @@
                           t.`id`, 
                           t.`Team_Name`,
                           d.`Dept_Name`,
-                          t.`Shift`, 
                           t.`Status`
                           FROM `team` as t 
                           INNER JOIN `department` AS d 
@@ -160,7 +159,7 @@
                     <td><?php echo $row[1] ?></td>
                     <td><?php echo $row[2] ?></td>
                     <td><?php
-                          $status = $row[4];
+                          $status = $row[3];
                           if($status == '1')
                           {
                             echo 'Active';
