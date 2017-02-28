@@ -89,6 +89,7 @@ require ('F_Connection.php');
 
           <ul class="treeview-menu">
             <li><a href="Q_Attendance.php"><i class="fa fa-circle-o"></i>Attendance</a></li>
+            <li><a href="Q_Schedule.php"><i class="fa fa-circle-o"></i>Schedule</a></li>
             <li><a href="Q_Log.php"><i class="fa fa-circle-o"></i>System Log</a></li>
             <li><a href="Q_EmployeeList.php"><i class="fa fa-circle-o"></i>Employee List</a></li>
             <li><a href="Q_PagIbig.php"><i class="fa fa-circle-o"></i>PAG-IBIG Table</a></li>

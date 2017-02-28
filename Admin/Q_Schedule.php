@@ -42,11 +42,11 @@
       <section class="content-header">
         <h1>
           Queries
-          <small>| Attendance </small>
+          <small>| Employee Schedule </small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="S_Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Attendance</li>
+          <li class="active">Employee Schedule</li>
         </ol>
       </section>
       <br>
@@ -56,7 +56,7 @@
         <div class="row"> -->
         <div class="box box-warning">
             <div class="box-header">
-              <h3 class="box-title"> Attendance </h3>
+              <h3 class="box-title"> Employee Schedule </h3>
              </div>
 
               <div class="box-body">
@@ -88,77 +88,56 @@
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                     <th>Employee Name</th>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
                     <th>Date</th>
                     <th>Day</th>
-                    <th>Shift</th>
-                    <th>Time-In</th>
+                    <th>Starting Time</th>
                     <th>Time-Out</th>
-                    <th>Hours</th>
-                    <th>Status</th>
+                     <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody>
-                    <?php $sql="SELECT
-                      CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name,
-                      DATE_FORMAT(s.`DATE`,'%M %d, %Y'), 
-                      DATE_FORMAT(s.`DATE`,'%W'),
-                      DATE_FORMAT(s.`Starting_Time`,'%r'),
-                      DATE_FORMAT(s.`Time_Out`,'%r'),
-                      DATE_FORMAT(t.`Time_In`,'%r'),
-                      DATE_FORMAT(t.`Time_Out`,'%r'),
-                      TIMEDIFF( t.`Time_Out`, t.`Time_In`),
-                      s.`Status`
-                    FROM `schedule` AS s
-                    INNER JOIN `employee` AS e
-                    ON s.`Emp_ID` = e.`User_ID` 
-                    LEFT JOIN `time` AS t
-                    ON s.`Emp_ID` = t.`User_ID` AND DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(t.`Time_In`,'%M %d, %Y')
-                    WHERE DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(NOW(),'%M %d, %Y') AND s.`ID` NOT IN (SELECT `Schedule_ID` FROM `attendance`)
-                    ORDER BY name";
-                     $result = mysqli_query($con, $sql);
-                    while($row = mysqli_fetch_array($result))
-                    {
-                  ?>
-                      <tr>  
-                     <td><?php echo $row[0] ?></td>
-                    <td><?php echo $row[1] ?></td>
-                    <td><?php echo $row[2] ?></td>
-                    <td><?php echo $row[3] ?> - <?php echo $row[4] ?></td>
-                    <td><?php if($row[5] == null)
-                    {
-                      echo ("No time in yet!");
-                    }
-                    else
-                    {
-                      echo $row[5];
-                    }
 
-                    ?></td>
-                    <td><?php if($row[6] == null)
-                    {
-                      echo ("No time out yet!");
-                    }
-                    else
-                    {
-                      echo $row[6];
-                    } ?></td>
-                    <td><?php if($row[5] == null)
-                    {
-                      echo ("No Number of Hours yet!");
-                    }
-                    else
-                    {
-                      echo $row[7];
-                    } ?></td>
-                    <td><?php if ($row[8] == 1)
+                    
+
+                    <tbody>
+
+                    <?php $sql="SELECT 
+                    e.`ID`, CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name, 
+                    DATE_FORMAT(s.`DATE`,'%M %d, %Y'), 
+                    DATE_FORMAT(s.`DATE`,'%W'), 
+                    DATE_FORMAT(s.`Starting_Time`,'%r'), 
+                    DATE_FORMAT(s.`Time_Out`,'%r'), 
+                    s.`Status` FROM `employee` AS e 
+                    INNER JOIN `schedule` AS s
+                    ON e.`user_id` = s.`Emp_ID`
+                    ORDER BY s.`Date`
+                    ";
+                    $result = mysqli_query($con, $sql);
+                    while($row = mysqli_fetch_array($result)){
+                  ?>
+
+                      <tr>  
+                      <?php $userid=$row[0] ?>
+                      <td><?php echo $row[0] ?></td>
+                      <td><?php echo $row[1] ?></td>  
+                      <td><?php echo $row[2] ?></td>                 
+                      <td><?php echo $row[3] ?></td>  
+                      <td><?php echo $row[4] ?></td>
+                      <td><?php echo $row[5] ?></td> 
+                      <td><?php if ($row[6] == 1)
                               echo "Active";
                             else 
                               echo "Inactive";
-                            ?></td>
+                            ?>
+                    
+                      </td>
+                   
+                    
                       </tr>
                        <?php } ?>  
                     </tbody>
+                    <tfoot></tfoot>
                   </table>
                 </div>
                   </div><!--row-->

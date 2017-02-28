@@ -199,7 +199,7 @@
               <?php $today = date("l, F j, Y");
               echo $today;
 
-              $result = mysqli_query($con, "SELECT `Time_In`, `Break_In`, `Break_Out`, `ID` FROM `time` WHERE `User_ID` = '$userid' AND DATE(`Time_In`) = CURDATE() ORDER BY `Time_In` DESC LIMIT 1");
+              $result = mysqli_query($con, "SELECT `Time_In`, `Break_In`, `Break_Out`, `Time_Out`, `ID` FROM `time` WHERE `User_ID` = '$userid' AND DATE(`Time_In`) = CURDATE() ORDER BY `Time_In` DESC LIMIT 1");
 
 
               $yes = mysqli_num_rows($result);
@@ -208,7 +208,8 @@
                     $timein = $row[0];
                     $breakin = $row[1];
                     $breakout = $row[2];
-                    $id = $row[3];
+                    $timeout = $row[3];
+                    $id = $row[4];
                   }
 
                   if(empty($id) && $timein == '0000-00-00 00:00:00')
@@ -221,64 +222,34 @@
                     $stat = 'End Lunch Break';
 
 
-                  /*if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00')
-                    $stat = 'Time-Out';*/
-
-                    if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00')
+                  if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout != '0000-00-00 00:00:00')
                     $stat = 'Time-In';
-
-                }
-              else
-                $stat = 'Time-In';
-                /*$id = 0;*/
-
-
-              $result1 = mysqli_query($con, "SELECT `Time_Out`, `ID` FROM `time` WHERE `User_ID` = '$userid'");
-              $yes1 = mysqli_num_rows($result1);
-              if($yes1 >= 1){            
-                while($row = mysqli_fetch_array($result1)){
-                    $timeout = $row[0];
-                    $id = $row[1];
-                  }
 
                   if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00')
                     $stat = 'Time-Out';
 
-                    if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00')
-                    $stat = 'Time-In';
-
                 }
-              else
+
+                
+              elseif
                 $stat = 'Time-In';
                 /*$id = 0;*/
-           
-              ?>
+
+                
+              ?>           
+
+
             </h3>
 
             <center>
               <form action="F_Time_.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
-                <button type="submit" class="btn btn-success btn-flat"  value="Start-Lunch">
+                <button type="submit" class="btn btn-success btn-flat" id="button1" onclick="enableButton2()" value="Start-Lunch">
                   <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
                 </button>
                 <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                 <input type="hidden" name="userid" value="<?php echo $userid; ?>">
               </form>
             </center>   
-            &nbsp;
-
-            <center>
-            	<form action="F_Time_.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
-
-                &nbsp;
-                <button type="submit" class="btn btn-success btn-flat"  value="Time-Out">
-                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
-                </button>
-
-                <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                <input type="hidden" name="userid" value="<?php echo $userid; ?>">
-                </form>
-            </center>
-
 
             <br><br>
 
