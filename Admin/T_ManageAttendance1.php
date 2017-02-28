@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <?php require('F_Connection.php');
-if (isset($_GET['empid']))
-  $empid = $_GET['empid'];   
+if (isset($_GET['id']))
+  $id = $_GET['id'];   
 else
    header("Location: T_ManageAttendance.php");
 ?>
@@ -61,7 +61,6 @@ else
 
       <!-- Main content -->  
       <section class="content">
-      <?php require('S_Successful.php');?>
         <!-- SELECT2 EXAMPLE -->
         <div class="box box-warning">
 
@@ -74,22 +73,24 @@ else
           <div class="box-body" style="overflow-x:auto;">
               <?php $sql="SELECT
                   CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name,
-                  DATE_FORMAT(s.`DATE`,'%M %d, %Y'), 
+                  DATE_FORMAT(s.`DATE`,'%b %d, %Y'), 
                   DATE_FORMAT(s.`DATE`,'%W'),
-                  DATE_FORMAT(s.`Starting_Time`,'%r'),
-                  DATE_FORMAT(s.`Time_Out`,'%r'),
-                  DATE_FORMAT(t.`Time_In`,'%r'),
-                  DATE_FORMAT(t.`Time_Out`,'%r'),
-                  TIMEDIFF( t.`Time_Out`, t.`Time_In`),
-                  s.`Status`,
+                  DATE_FORMAT(s.`Starting_Time`,'%h:%i %p'),
+                  DATE_FORMAT(s.`Time_Out`,'%h:%i %p'),
+                  DATE_FORMAT(t.`Time_In`,'%h:%i %p'),
+                  DATE_FORMAT(t.`Time_Out`,'%h:%i %p'),  
+                  TIMEDIFF( t.`Break_Out`, t.`Break_In`) AS break,
+                  TIMEDIFF( t.`Time_Out`, t.`Time_In`) AS hour,
                   e.`User_ID`
                     FROM `schedule` AS s
                     INNER JOIN `employee` AS e
                     ON s.`Emp_ID` = e.`User_ID` 
                     LEFT JOIN `time` AS t
                     ON s.`Emp_ID` = t.`User_ID` AND DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(t.`Time_In`,'%M %d, %Y')
-                    WHERE DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(NOW(),'%M %d, %Y') AND s.`ID` NOT IN (SELECT `Schedule_ID` FROM `attendance`)
-                    ORDER BY name"
+                    WHERE DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(NOW(),'%M %d, %Y')
+                    AND s.`ID` NOT IN (SELECT `Schedule_ID` FROM `attendance`)
+                    AND s.`Status` = 1
+                    ORDER BY hour DESC"
                      ;  
                     $result = mysqli_query($con, $sql);
                     ?>
@@ -108,8 +109,6 @@ else
                     <th>Time-In</th>
                     <th>Time-Out</th>
                     <th>Hours</th>
-                    <th>Schedule</th>
-                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -123,26 +122,67 @@ else
                     <td><?php echo $row[1] ?></td>
                     <td><?php echo $row[2] ?></td>
                     <td><?php echo $row[3] ?> - <?php echo $row[4] ?></td>
-                    <td><?php echo $row[5] ?></td>
-                    <td><?php echo $row[6] ?></td>
-                    <td><?php echo $row[7] ?></td>
-                    <td><?php echo $row[8] ?></td>
-                    <td>
-                      <select class="form-control" id="status" name="status" placeholder="Status" required>
-                        <option value="1">On-Time</option>
-                        <option value="2">Late</option>
-                        <option value="3">AWOL</option>
-                        <option value="4">Half-Day</option>
-                        <option value="5">On-Leave</option>
-                        <option value="6">Suspended</option>
-                      </select>
+                    <td><?php
+                          if($row[5] != '')
+                          {
+                            echo $row[5];
+                          }
+                          else
+                          {
+                            echo "Not Yet Logged In.";
+                          }                        
+                         ?>
+                    </td>
+                    <td><?php
+                          if($row[6] != '12:00 AM')
+                          {
+                            echo $row[6];
+                          }
+                          else
+                          {
+                            echo "Currently Logged In.";
+                          }
+                          if($row[6] == '')
+                          {
+                            echo "Not Yet Logged In.";
+                          }                         
+                         ?>
+                    </td>
+                    <td><?php
+                          $break =  $row[7];                      
+                          $hour =  $row[8];                      
+                          if($hour != '-838:59:59')
+                          {
+                            if($hour == '')
+                            {
+                              echo "--";
+                            }
+                            else
+                            {
+                              $breaks = strtotime($break);
+                              $totalhours = strtotime($hour);
+                              $time_diff = $totalhours - $breaks;
+
+                              $hours = floor($time_diff / 3600);
+                              $mins = floor($time_diff / 60 % 60);
+                              $secs = floor($time_diff % 60);
+
+                              $rec = $hours . ":" . $mins . ":" . $secs;                              
+                              echo $rec;
+                            }
+                          }
+                          else
+                          {
+                            echo "--";
+                          }                                                   
+                         ?>
                     </td>
                     <td>
-                      <form action="F_T_ManageAttendance.php" method="get">
-                        <input type="hidden" name="empid" value="<?php echo $row[9]; ?>">
+                      <form action="T_ManageAttendance1.php" method="get">
+                        <input type="hidden" name="id" value="<?php echo $row[9]; ?>">
                         <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
-                          <i class="fa fa-save"></i>
-                          Save
+                          <i class="fa fa-edit"></i>
+                          Manage
                         </button>
                       </form>
                     </td>
@@ -151,11 +191,162 @@ else
                   }
                   else
                   {
-                    echo '<center><h1>No Attendance to Manage yet!</h1></center><br>';                  }
+                    echo '<center><h1>No Attendance to Manage yet!</h1></center><br>';
+                  }
                    ?>
                 </tbody>
               </table>
             </div>       
+
+        </div>
+
+        <div class="box box-warning">
+          <?php $sql="SELECT
+                  CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name,
+                  DATE_FORMAT(s.`DATE`,'%M %d, %Y'), 
+                  DATE_FORMAT(s.`DATE`,'%W'),
+                  DATE_FORMAT(s.`Starting_Time`,'%h:%i %p'),
+                  DATE_FORMAT(s.`Time_Out`,'%h:%i %p'),
+                  DATE_FORMAT(t.`Time_In`,'%h:%i %p'),
+                  DATE_FORMAT(t.`Time_Out`,'%h:%i %p'), 
+                  TIMEDIFF( t.`Break_Out`, t.`Break_In`) AS break,
+                  TIMEDIFF( t.`Time_Out`, t.`Time_In`) AS hour
+                    FROM `schedule` AS s
+                    INNER JOIN `employee` AS e
+                    ON s.`Emp_ID` = e.`User_ID` 
+                    LEFT JOIN `time` AS t
+                    ON s.`Emp_ID` = t.`User_ID` AND DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(t.`Time_In`,'%M %d, %Y')
+                    WHERE DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(NOW(),'%M %d, %Y')
+                    AND s.`ID` NOT IN (SELECT `Schedule_ID` FROM `attendance`)
+                    AND s.`Status` = 1
+                    AND e.`User_ID` = $id";
+                  $result = mysqli_query($con, $sql);
+                  while($row = mysqli_fetch_array($result)){
+                        $name = $row[0];
+                        $date = $row[1];
+                        $day = $row[2];
+                        $starttime = $row[3];
+                        $endtime = $row[4];
+                        $timein = $row[5];
+                        $timeout = $row[6];
+                        $break = $row[7];
+                        $hour = $row[8];
+                      }
+          ?>
+          <div class="box-header with-border">
+            <h3 class="box-title"><?php echo $name; ?></h3>
+          </div>
+
+          <form action="F_T_ManageAttendance.php" method="get">
+            <div class="box-body">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Date</label>
+                  <input type="text" class="form-control" value="<?php echo $day; ?> - <?php echo $date; ?>" readonly>
+                </div>
+              </div> 
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Shift</label>
+                  <input type="text" class="form-control" value="<?php echo $starttime; ?> - <?php echo $endtime; ?>" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Hours</label>
+                  <input type="text" class="form-control" value="<?php
+                          if($hour != '-838:59:59')
+                          {
+                            if($hour == '')
+                            {
+                              echo "--";
+                            }
+                            else
+                            {
+                              $breaks = strtotime($break);
+                              $totalhours = strtotime($hour);
+                              $time_diff = $totalhours - $breaks;
+
+                              $hours = floor($time_diff / 3600);
+                              $mins = floor($time_diff / 60 % 60);
+                              $secs = floor($time_diff % 60);
+
+                              $rec = $hours . ":" . $mins . ":" . $secs;                              
+                              echo $rec;
+                            }
+                          }
+                          else
+                          {
+                            echo "--";
+                          }                         
+                         ?>" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Time-In</label>
+                  <input type="text" class="form-control" value="<?php
+                          if($timein != '')
+                          {
+                            echo $timein;
+                          }
+                          else
+                          {
+                            echo "Not Yet Logged In.";
+                          }                        
+                         ?>" readonly>
+                </div>
+              </div> 
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Time-Out</label>
+                  <input type="text" class="form-control" value="<?php
+                          if($timeout != '12:00 AM')
+                          {
+                            echo $timeout;
+                          }
+                          else
+                          {
+                            echo "Currently Logged In.";
+                          }
+                          if($timeout == '')
+                          {
+                            echo "Not Yet Logged In.";
+                          }                         
+                         ?>" readonly>
+                </div>
+              </div>            
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Status</label>
+                  <select class="form-control" id="status" name="status" placeholder="Status" required>
+                        <option value="1">On-Time</option>
+                        <option value="2">Late</option>
+                        <option value="3">AWOL</option>
+                        <option value="4">Half-Day</option>
+                        <option value="5">On-Leave</option>
+                        <option value="6">Suspended</option>
+                      </select>
+                </div>
+              </div>
+            </div>
+
+            <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+            <input type="hidden" name="rec" value="<?php echo $rec; ?>"/>
+
+            <div class="box-footer" align="right">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              &nbsp;&nbsp;&nbsp;
+              <button type="reset" class="btn btn-default">Clear Fields</button>
+            </div>
+          </form>
+
 
         </div>
       </section>

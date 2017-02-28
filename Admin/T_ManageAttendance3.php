@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
-<?php require('F_Connection.php') ?>
+<?php require('F_Connection.php');
+if (isset($_GET['id']))
+  $id = $_GET['id'];   
+else
+   header("Location: T_ManageAttendance.php");
+?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,6 +61,7 @@
 
       <!-- Main content -->  
       <section class="content">
+      <?php require('S_Successful.php');?>
         <!-- SELECT2 EXAMPLE -->
         <div class="box box-warning">
 
