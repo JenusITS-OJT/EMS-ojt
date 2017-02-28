@@ -42,7 +42,7 @@
       <section class="content-header">
         <h1>
           Queries
-          <small>| Employee List </small>
+          <small>| Employee List</small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="S_Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -88,46 +88,55 @@
                   <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>Jenus ID</th>
-                        <th>Employee Name</th>
-                        <th>Contact Number</th>
-                        <th>Date Hired</th>
-                        <th>Job Title</th>
-                        <th>Status</th>
-                      </tr>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Contact Number</th>
+                    <th>Date Hired</th>
+                    <th>Job Title</th>
+                    <th>Status</th>
+                    </tr>
                     </thead>
 
-                    <?php $sql="SELECT 
-                                e.`User_ID`, 
-                                e.`ID`, 
-                                CONCAT(e.`First_Name`, ' ' ,e.`Middle_Name`, ' ' , e.`Last_Name`) as name, 
-                                e.`Contact_No`, 
-                                e.`Date_Hired`, 
-                                j.`Job_Title`, 
-                                s.`Status_Name` 
-                                FROM employee as e 
-                                INNER JOIN `job` as j 
-                                ON j.`ID` = e.`JobTitle_ID` 
-                                INNER JOIN `status` as s 
-                                ON s.`ID` = e.`Status_ID` 
-                                where e.`User_ID` = e.'User_ID'";
+                    <tbody>
+
+                    <?php $sql="SELECT
+                    e.`ID`, 
+                    CONCAT(e.`First_Name`, ' ' ,e.`Middle_Name`, ' ' , e.`Last_Name`) as name, 
+                    e.`Contact_No`, 
+                    e.`Date_Hired`, 
+                    j.`Job_Title`, 
+                    s.`Status_Name` FROM employee as e 
+                    INNER JOIN `job` as j 
+                    ON j.`ID` = e.`JobTitle_ID` 
+                    INNER JOIN `status` as s 
+                    ON s.`ID` = e.`Status_ID`
+                    WHERE e.`Date_Hired` IS NOT NULL AND e.`Status_ID` = '1'
+                    ORDER BY e.`Date_Hired`
+                    ";
                     $result = mysqli_query($con, $sql);
-                      $yes = mysqli_num_rows($result);
-                    {
+                    while($row = mysqli_fetch_array($result)){
                   ?>
 
-                    <tbody>
                       <tr>  
                       <?php $userid=$row[0] ?>
                       <td><?php echo $row[0] ?></td>
                       <td><?php echo $row[1] ?></td>  
                       <td><?php echo $row[2] ?></td>                 
                       <td><?php echo $row[3] ?></td>  
-                      <td><?php echo $row[4] ?></td>  
-                      <td><?php echo $row[5] ?></td>   
+                      <td><?php echo $row[4] ?></td> 
+                      <td><?php if ($row[5] == 1)
+                              echo "Inactive";
+                            else 
+                              echo "Active";
+                            ?>
+                    
+                      </td>
+                   
+                    
                       </tr>
                        <?php } ?>  
                     </tbody>
+                    <tfoot></tfoot>
                   </table>
                 </div>
                   </div><!--row-->

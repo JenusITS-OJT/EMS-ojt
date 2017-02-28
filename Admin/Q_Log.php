@@ -80,130 +80,54 @@
 
                   <br>
 
-                 <div class="row">
-                 <div class="col-sm-12">
+                 <div class="box-body">
                 <div class="table-responsive" style="overflow-x:auto;">
-                  <?php
-                      $string = $result = mysqli_query($con, "SELECT e.`user_id`,
-                          e.`id`, 
-                          CONCAT(e.`First_Name`,' ', e.`Last_Name`) AS name,
-                          DATE_FORMAT(t.`Time_In`,'%r'),
-                          DATE_FORMAT(t.`Break_In`,'%r'),
-                          DATE_FORMAT(t.`Break_Out`,'%r'),
-                          DATE_FORMAT(t.`Time_Out`,'%r')
-                          FROM `employee` AS e
-                          INNER JOIN `time` AS t
-                          ON e.`user_id` = t.`User_ID`
-                          WHERE DATE(`Time_In`) = CURDATE()
-                          GROUP BY e.`user_id`
-                          ORDER BY name
-                        ");
-                      $yes = mysqli_num_rows($result);
-                       if($yes >= 1){
-                    ?>
-                  <table class="table table-bordered table-striped">
+                    <?php
+                        $sql = "SELECT l.`user_id`,
+                                e.`ID`, 
+                                CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) AS name,
+                                l.`Login_Time`, 
+                                l.`Logout_Time`
+                                FROM `log` as l 
+                                INNER JOIN `employee` AS e 
+                                ON e.`user_ID` = l.`user_id`
+                                GROUP BY e.`user_ID`
+                                ORDER BY l.`Login_Time` DESC
+                                LIMIT 10";
+                        $result = mysqli_query($con, $sql);
+                      ?>
+                  <table id = "myTable"class="table table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>Jenus ID</th>
-                        <th>Employee Name</th>
-                        <th>Time-In</th>
-                        <th>Time of Break</th>
+                        <th>Name</th>
+                        <th>Time of Log-In</th>
                         <th>Time of Log-Out</th>
-                        <th>Time-Out</th>
                       </tr>
-                    </thead>
+                    </thead>                    
 
                     <tbody>
-                    <?php
-                    while($row = mysqli_fetch_array($result)){
-                      ?>
+                        <?php
+                          while($row = mysqli_fetch_array($result)){
+                        ?>
                       <tr>
+                        <td><?php echo $row[1] ?></td>
+                        <td><?php echo $row[2] ?></td>
+                        <td><?php echo $row[3] ?></td>
                         <td>
-                          <?php 
-
-                          if($row[1] != '12:00:00 AM')
-                              {
-                                echo $row[1];
-                              }
-                              else
-                              {
-                                echo "...";
-                              }
-                          ?>                                
+                          <?php
+                          if($row[4] != '0000-00-00 00:00:00')
+                          {
+                            echo $row[4];
+                          }
+                          else
+                          {
+                            echo "Currently Logged In.";
+                          }                        
+                         ?>                        
                         </td>
-                        <td>
-                          <?php 
-
-                          if($row[2] != '12:00:00 AM')
-                              {
-                                echo $row[2];
-                              }
-                              else
-                              {
-                                echo "...";
-                              }
-                          ?>                                
-                        </td>
-                        <td>
-                          <?php 
-
-                          if($row[3] != '12:00:00 AM')
-                              {
-                                echo $row[3];
-                              }
-                              else
-                              {
-                                echo "...";
-                              }
-                          ?>                                
-                        </td>
-                        <td>
-                          <?php 
-
-                          if($row[4] != '12:00:00 AM')
-                              {
-                                echo $row[4];
-                              }
-                              else
-                              {
-                                echo "...";
-                              }
-                          ?>                                
-                        </td>
-                        <td>
-                          <?php 
-
-                          if($row[5] != '12:00:00 AM')
-                              {
-                                echo $row[5];
-                              }
-                              else
-                              {
-                                echo "...";
-                              }
-                          ?>                                
-                        </td>
-                        <td>
-                          <?php 
-
-                          if($row[6] != '12:00:00 AM')
-                              {
-                                echo $row[6];
-                              }
-                              else
-                              {
-                                echo "...";
-                              }
-                          ?>                                
-                        </td>                       
                       </tr>
-                    <?php }
-                    }
-                    else
-                    {
-                      echo '<center><h1>No Time In yet!</h1></center><br>';
-                    }
-                 ?>
+                    <?php } ?>
                     </tbody>
                   </table>
                 </div>

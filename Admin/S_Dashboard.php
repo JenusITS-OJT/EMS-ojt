@@ -201,7 +201,6 @@
 
               $result = mysqli_query($con, "SELECT `Time_In`, `Break_In`, `Break_Out`, `Time_Out`, `ID` FROM `time` WHERE `User_ID` = '$userid' AND DATE(`Time_In`) = CURDATE() ORDER BY `Time_In` DESC LIMIT 1");
 
-
               $yes = mysqli_num_rows($result);
               if($yes >= 1){            
                 while($row = mysqli_fetch_array($result)){
@@ -221,36 +220,29 @@
                   if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout == '0000-00-00 00:00:00')
                     $stat = 'End Lunch Break';
 
-
-                  if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout != '0000-00-00 00:00:00')
-                    $stat = 'Time-In';
-
                   if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00')
                     $stat = 'Time-Out';
 
+                  if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout != '0000-00-00 00:00:00')
+                    $stat = 'Time-In';
                 }
-
-                
-              elseif
+              else
                 $stat = 'Time-In';
                 /*$id = 0;*/
 
-                
-              ?>           
 
-
+              ?>            
             </h3>
 
             <center>
               <form action="F_Time_.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
-                <button type="submit" class="btn btn-success btn-flat" id="button1" onclick="enableButton2()" value="Start-Lunch">
+                <button type="submit" class="btn btn-success btn-flat"  value="Start-Lunch">
                   <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
                 </button>
                 <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                 <input type="hidden" name="userid" value="<?php echo $userid; ?>">
               </form>
-            </center>   
-
+            </center>          
             <br><br>
 
           </div>
