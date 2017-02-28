@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <?php 
     require('F_Connection.php');
-    require('S_Header.php');
-    require('S_Sidebar.php');
     if (isset($_GET['datepicker']))
     $datepicker = $_GET['datepicker'];
   else
@@ -46,7 +44,8 @@
     }
   </style>
 </head>
-
+<?php require('S_Header.php');?>
+<?php require('S_Sidebar.php');?>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->

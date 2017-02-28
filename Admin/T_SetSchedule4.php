@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <?php
     require('F_Connection.php');
-    require('S_Header.php');
-    require('S_Sidebar.php');
-    if (isset($_GET['datepicker']))
+    if (isset($_GET['datepicker']) AND isset($_GET['msg']))
     $datepicker = $_GET['datepicker'];
-  else
-    $datepicker = date("Y-m-d");
+    else
+    header("Location: T_SetSchedule.php");
   ?>
 <html>
 <head>
@@ -46,7 +44,8 @@
     }
   </style>
 </head>
-
+<?php require('S_Header.php');?>
+<?php require('S_Sidebar.php');?>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
@@ -158,7 +157,7 @@
                     <td><?php echo $row[3] ?></td>
                     <td>
                       <div class="btn-group">
-                          <a href="T_SetSchedule2.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>"><button type="submit" class="btn btn-success btn-sm">
+                          <a href="T_SetSchedule1.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>"><button type="submit" class="btn btn-success btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span> 
                             Set Schedule
                           </button>

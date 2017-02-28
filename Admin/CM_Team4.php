@@ -177,22 +177,19 @@ else
                         ?></td>
                     <td>
                     <div class="btn-group">
-
-                      <form action="CM_Team1.php?id=<?php echo $_GET['id'];?>" method="get">
-                          <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
+                        <a href="CM_Team1.php?id=<?php echo $id;?>">
+                          <button type="button" class="btn btn-success btn-flat btn-sm"  value="Update">
                             <i class="fa fa-pencil"></i>
                             Update
                           </button>
-                          <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </form>
+                        </a>
                           &nbsp;
-                        <form action="CM_Team2.php?id=<?php echo $_GET['id'];?>" method="get">
-                          <button type="submit" class="btn btn-danger btn-flat btn-sm"  value="Delete">
+                        <a href="CM_Team2.php?id=<?php echo $id;?>">
+                          <button type="button" class="btn btn-danger btn-flat btn-sm"  value="Delete">
                             <i class="fa fa-trash"></i>
                             Delete
                           </button>
-                          <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </form>
+                        </a>
 
                     </div>
                   </td>

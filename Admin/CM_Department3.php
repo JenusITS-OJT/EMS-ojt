@@ -153,23 +153,21 @@ else
                   <td><?php echo $row[3] ?></td>
                   <td>
                     <div class="btn-group">
-
-                      <form action="CM_Department1.php?id=<?php echo $_GET['id'];?>" method="get">
+                      <a href="CM_Department1.php?id=<?php echo $id;?>">
                           <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
                             <i class="fa fa-pencil"></i>
                             Update
                           </button>
                           <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </form>
+                        </a>
                           &nbsp;
-                        <form action="CM_Department2.php?id=<?php echo $_GET['id'];?>" method="get">
+                        <a href="CM_Department2.php?id=<?php echo $id;?>">
                           <button type="submit" class="btn btn-danger btn-flat btn-sm"  value="Delete">
                             <i class="fa fa-trash"></i>
                             Delete
                           </button>
                           <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </form>
-
+                        </a>
                     </div>
                   </td>
                 </tr>

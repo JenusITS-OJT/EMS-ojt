@@ -1,210 +1,193 @@
 <!DOCTYPE html>
+<?php
+require('F_Connection.php');
+  if (isset($_GET['datepicker']) AND isset($_GET['datepicker1'])){
+    $datepicker = $_GET['datepicker'];
+    $datepicker1 = $_GET['datepicker1'];
+  }
+  else{
+    $datepicker = date("Y-m-d");
+    $datepicker1 = date("Y-m-d");
+    /*header("Location: T_GeneratePayroll.php");*/
+  }
+require('S_Header.php');
+require('S_Sidebar.php');
+  ?>
 <html>
-<?php require('F_Connection.php');
-if (isset($_GET['id']))
-  $id = $_GET['id'];   
-else
-   header("Location: CM_Branch.php");
-?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel='shortcut icon' type='image/x-icon' href='logo.png'/>
   <title>Jenus ITS</title>
-
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-  <!-- iCheck -->
   <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
-  <!-- Morris chart -->
   <link rel="stylesheet" href="plugins/morris/morris.css">
-  <!-- jvectormap -->
   <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-  <!-- Date Picker -->
   <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
-  <!-- Daterange picker -->
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
-  <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+  <style type="text/css">
+    .bs-example{
+      margin: 20px;
+    }
+    @media screen and (min-width: 768px) {
+        .modal-dialog {
+          width: 1000px; /* New width for default modal */
+        }
+        .modal-sm {
+          width: 350px; /* New width for small modal */
+        }
+    }
+    @media screen and (min-width: 992px) {
+        .modal-lg {
+          width: 950px; /* New width for large modal */
+        }
+    }
+  </style>
 </head>
+
 <body class="hold-transition sidebar-mini">
-<?php require('S_Header.php');?>
-<?php require('S_Sidebar.php');?>
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
-
-
-<div class="wrapper">
-  <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+
       <section class="content-header">
         <h1>
-          Employee Management System
-          <small>| Branch</small>
+        Employee Management System
+          <small>| Generate Payroll</small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="S_Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li><a href="#"><i class="fa fa-gear"></i>Configuration Management</a></li>
-          <li class="active">Branch</li>
+          <li><a href="#"><i class="fa fa-tasks"></i>Transaction</a></li>
+          <li class="active">Generate Payroll</li>
         </ol>
       </section>
       <br>
-      <!-- Main content -->  
+
       <section class="content">
 
-      <form action="F_CM_Branch2.php" method="get">
         <div class="box box-warning">
-          <div class="box-header">
-            <h3 class="box-title">Delete Record?</h3>
-          </div>
-          <div class="box-header">
-            <div class="box-body" style="overflow-x:auto;">
-            <h4>Do you want to delete the record below?</h4><small>You will not be able to retrieve this anymore.</small>
-            <br/><br/>
+          <div class="box-header with-border">
+            <b><h1 class="box-title">Generate Payroll</h1></b>
+          </div>         
 
-
-            <table id="branch" class="table table-bordered table-striped">
-              <?php $sql="SELECT 
-                b.`ID`, 
-                b.`Address`, 
-                b.`Contact_No`, 
-                b.`Email`, 
-                b.`Date_Established`, 
-                s.`Status_Name`
-                  FROM `branch` AS b
-                  INNER JOIN `status` AS s
-                  ON s.`ID` = b.`Status`
-                  WHERE b.`id` = '$id'";
-                  $result = mysqli_query($con, $sql);
-                  while($row = mysqli_fetch_array($result)){
-                        $id = $row[0];
-                        $address = $row[1];
-                        $contact = $row[2];
-                        $email = $row[3];
-                        $date = $row[4];
-                        $status = $row[5];
-                  }
-              ?>
-              <thead>
-                <tr>
-                  <th>Branch ID</th>
-                  <th>Branch Address</th>
-                  <th>Contact Number</th>
-                  <th>Email Address</th>
-                  <th>Date Started</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><?php echo $id ?></td>
-                  <td><?php echo $address ?></td>
-                  <td><?php echo $contact ?></td>
-                  <td><?php echo $email ?></td>
-                  <td><?php echo $date ?></td>
-                  <td><?php echo $status ?></td>
-                </tr>                   
-              </tfoot>
-            </table>
-
-          </div>
-          </div>
-            <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-          <div class="box-footer" align="right">
-                <button type="submit" class="btn btn-warning">Delete Record</button>
-
-    </form>
-                &nbsp;&nbsp;&nbsp;
-                <a href="CM_Branch.php"><button type="button" class="btn btn-default">Cancel</button></a>
+          <form action="F_T_GeneratePayroll.php" method="get">
+            <div class="box-body">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Date From:</label>
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" value="<?php echo $datepicker ?>" required></input>
+                  </div>
+                  <!-- /.input group -->
+                </div>
               </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Date To:</label>
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="date" class="form-control pull-right" id="datepicker1" name="datepicker1" value="<?php echo $datepicker1 ?>" required></input>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              </div>
+            </div>
+            <div class="box-footer" align="right">
+              <button type="submit" class="btn btn-primary">Generate Payroll</button>
+            </div>
+          </form>
         </div>
 
-          <div class="box box-warning">
+        <div class="box box-warning">
           <div class="box-header">
-            <h3 class="box-title">Branch</h3>
+            <h1 class="box-title">Payroll for <?php echo $datepicker; ?> - <?php echo $datepicker1; ?></h1>
           </div>
-          <!-- /.box-header -->
-
 
           <div class="box-body" style="overflow-x:auto;">
-            <table id="branch" class="table table-bordered table-striped">
+            <table id="employeelist" class="table table-bordered table-striped">
+
+          <?php
+                  $sql="SELECT e.`ID`,
+                    CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) AS name, 
+                    e.`Basic_Pay`, 
+                    d.`dept_name`, 
+                    e.`User_ID`
+                    FROM `employee` AS e 
+                    INNER JOIN `job` AS j 
+                    ON e.`JobTitle_ID` = j.`ID` 
+                    INNER JOIN `team` AS t 
+                    ON e.`Team_ID` = t.`ID`
+                    INNER JOIN `department` AS d 
+                    ON t.`Dept_ID` = d.`ID` 
+                    LEFT OUTER JOIN `schedule` AS s
+                    ON e.`user_id` = s.`Emp_ID`
+                    WHERE e.`User_ID` NOT IN (SELECT `Emp_ID` FROM `schedule` WHERE `Date` = '$datepicker')
+                    and e.`Date_Hired` is not null
+                    GROUP BY e.`ID`";
+                    $result = mysqli_query($con, $sql);
+                    $count = mysqli_num_rows($result);
+                    ?>
+
               <thead>
                 <tr>
-                  <th>Branch ID</th>
-                  <th>Branch Address</th>
-                  <th>Contact Number</th>
-                  <th>Email Address</th>
-                  <th>Date Started</th>
-                  <th>Status</th>
+                  <th>Employee ID</th>
+                  <th>Employee Name</th>
+                  <th>Basic Pay</th>
+                  <th>Days Present</th>
+                  <th>Deduction</th>
+                  <th>Gross Pay</th>
                   <th>Action</th>
                 </tr>
               </thead>
-              <?php $sql="SELECT 
-                b.`ID`, 
-                b.`Address`, 
-                b.`Contact_No`, 
-                b.`Email`, 
-                b.`Date_Established`, 
-                s.`Status_Name`
-                  FROM `branch` AS b
-                  INNER JOIN `status` AS s
-                  ON s.`ID` = b.`Status` where b.`status` = '1'";
-                    $result = mysqli_query($con, $sql);
-                    while($row = mysqli_fetch_array($result)){
+
+              </thead>
+                <tbody>
+                  <?php
+                      while($row = mysqli_fetch_array($result)){
                   ?>
-              <tbody>
-                <tr>
-                  <?php $id=$row[0] ?>
-                  <td><?php echo $row[0] ?></td>
-                  <td><?php echo $row[1] ?></td>
-                  <td><?php echo $row[2] ?></td>
-                  <td><?php echo $row[3] ?></td>
-                  <td><?php echo $row[4] ?></td>
-                  <td><?php echo $row[5] ?></td>
-                  <td>
-                    <div class="btn-group">
-                        <a href="CM_Branch1.php?id=<?php echo $id;?>">
-                          <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
-                            <i class="fa fa-pencil"></i>
-                            Update
+                  <tr>
+                    <?php $userid=$row[4] ?>
+                    <td><?php echo $row[0] ?></td>
+                    <td><?php echo $row[1] ?></td>
+                    <td><?php echo $row[2] ?></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <div class="btn-group">
+                          <a href="T_GeneratePayroll2.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>"><button type="submit" class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span> 
+                            View Details
                           </button>
-                          <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
                         </a>
-                          &nbsp;
-                      <a href="CM_Branch2.php?id=<?php echo $id;?>">
-                          <button type="submit" class="btn btn-danger btn-flat btn-sm"  value="Delete">
-                            <i class="fa fa-trash"></i>
-                            Delete
-                          </button>
-                          <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </a>
-                    </div>
-                  </td>
-                </tr>
-                <?php } ?>                    
+                      </div>
+                    </td>
+                  </tr>
+                  <?php }
+                   ?>                    
+                </tbody>
               </tfoot>
-            </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
+            </tfoot>
+          </table>
         </div>
       </div>
       </section>
     </div>
-  </div>
 
+<?php require("S_Footer.php");?>
 
 <!-- jQuery 2.2.3 -->
 <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -324,6 +307,5 @@ else
     });
   });
 </script>
-
 </body>
 </html>

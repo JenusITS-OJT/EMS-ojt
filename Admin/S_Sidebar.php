@@ -53,7 +53,6 @@ require ('F_Connection.php');
 
             <li><a href="#"><i class="fa fa-reorder"></i>Attendance/Leave</a></li>
             <li><a href="CM_Holiday.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-circle-o"></i>Holiday</a></li>
-            <li><a href="CM_Shift.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-circle-o"></i>Shift</a></li>
 
             <li><a href="#"><i class="fa fa-money"></i>Payroll</a></li>
             <li><a href="CM_Allowance.php">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-circle-o"></i>Allowance</a></li>  
@@ -71,9 +70,9 @@ require ('F_Connection.php');
 
           <ul class="treeview-menu">
             <li><a href="T_SetCredential.php"><i class="fa fa-circle-o"></i>Set Credential</a></li>
-            <li><a href="T_ManageAttendance.php"><i class="fa fa-circle-o"></i>Manage Attendance</a></li>
             <li><a href="T_SetSchedule.php"><i class="fa fa-circle-o"></i>Set Schedule</a></li>
             <li><a href="T_UpdateSchedule.php"><i class="fa fa-circle-o"></i>Update Schedule</a></li>
+            <li><a href="T_ManageAttendance.php"><i class="fa fa-circle-o"></i>Manage Attendance</a></li>
             <li><a href="T_GeneratePayroll.php"><i class="fa fa-circle-o"></i>Generate Payroll</a></li>
           </ul>
         </li>

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
-<?php require('F_Connection.php') ?>
+<?php require('F_Connection.php');
+if (isset($_GET['id']))
+  $id = $_GET['id'];
+else
+   header("Location: T_SetCredential.php");
+?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,6 +59,172 @@
       <!-- Main content -->  
       <section class="content">
       <!-- SELECT2 EXAMPLE -->
+          <div class="box box-warning">
+            <div class="box-header">
+              <h3 class="box-title">Set Employee's Credentials</h3>
+            </div>
+
+            <form action="F_T_SetCredential.php" method="get">
+              <div class="box-body">
+                <?php $sql="SELECT `user_id`, 
+                    CONCAT(`First_Name`, ' ' ,`Middle_Name`, ' ' , `Last_Name`), `email`, `contact_no`
+                                  FROM `employee` where `user_id` = $id";
+                                  $result = mysqli_query($con, $sql);
+                                  while($row = mysqli_fetch_array($result)){
+                                    $id = $row[0];
+                                    $name = $row[1];
+                                    $email = $row[2];
+                                    $contact = $row[3];
+                                  }
+                                ?>
+
+
+                <!-- Name -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Employee Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $name; ?>" readonly>
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Email" value = "<?php echo $email; ?>" readonly>
+                  </div>
+                </div>
+
+                <!-- Contact No. -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Contact Number</label>
+                    <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact No" value = "<?php echo $contact; ?>"readonly>
+                  </div>
+                </div>              
+
+                <!-- ID Number -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Set ID Number</label>
+                    <input type="text" class="form-control" id="empid" name="empid" placeholder="ID Number (e.g. 001, 002, ...)" required>
+                  </div>
+                </div>
+
+                <!-- Bank Account -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Bank Account</label>
+                    <input type="text" class="form-control" id="account" name="account" placeholder="Bank Account" required>
+                  </div>
+                </div>
+
+                <!-- Basic Salary -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Basic Salary</label>
+                    <input type="text" class="form-control" id=basicpay name="basicpay" placeholder="Basic Pay" required>
+                  </div>
+                </div>
+
+                <!-- Job Position -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Job Position</label>
+                    <select class="form-control" id="pos" name="pos" required>
+                      <?php $sql="SELECT `id`,
+                                    `job_title`
+                                    FROM `job`;";
+                                    $result = mysqli_query($con, $sql);
+                                    while($row = mysqli_fetch_array($result)){
+                                  ?>
+                      <option value="<?php echo $row[0] ?>"><?php echo $row[1] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Team -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Team</label>
+                    <select class="form-control" id="team" name="team" required>
+                      <?php $sql="SELECT `id`,
+                                    `team_name`
+                                    FROM `team`;";
+                                    $result = mysqli_query($con, $sql);
+                                    while($row = mysqli_fetch_array($result)){
+                                  ?>
+                      <option value="<?php echo $row[0] ?>"><?php echo $row[1] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Designation -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Designation</label>
+                    <select class="form-control" id="des" name="des" required>
+                      <?php $sql="SELECT `id`,
+                                    `address`
+                                    FROM `branch`;";
+                                    $result = mysqli_query($con, $sql);
+                                    while($row = mysqli_fetch_array($result)){
+                                  ?>
+                      <option value="<?php echo $row[0] ?>"><?php echo $row[1] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Hire Date -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Hire Date</label>
+                    <div class="input-group date">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" required></input>
+                    </div>
+                    <!-- /.input group -->
+                  </div>
+                </div>
+
+                <!-- Pay Type -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Pay Type</label>
+                    <select class="form-control" id="paytype" name="paytype" required>
+                      <option value="Regular/Permanent">Monthly</option>
+                      <option value="Probationary">Semi-Monthly</option>                      
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Employee Type -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Employee Type</label>
+                    <select class="form-control" id="emptype" name="emptype" required>                      
+                      <option value="Regular/Permanent">Regular/Permanent</option>
+                      <option value="Probationary">Probationary</option>
+                      <option value="Trainee/Intern">Trainee/Intern</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+
+              <div class="box-footer" align="right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                &nbsp;&nbsp;&nbsp;
+                <a href = "T_SetCredential.php"<button type="reset" class="btn btn-default">Cancel</button></a>
+              </div>
+            </form>
+          </div>
 
           <div class="box box-warning">
             <div class="box-header">
@@ -114,8 +285,7 @@
             </div>
             <!-- /.box-body -->
           </div>
-          <!-- /.box-body -->
-	    </section>
+	  </section>
       <!-- /.box -->
 	</div>
 </div>

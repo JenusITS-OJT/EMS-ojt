@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
-<?php require('F_Connection.php') ?>
+<?php require('F_Connection.php');
+if (isset($_GET['id']))
+  $id = $_GET['id'];
+else
+   header("Location: T_SetCredential.php");
+?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -100,7 +105,7 @@
                   <td><?php echo $row[3] ?></td>
                   <td><?php echo $row[4] ?></td>
                 <td>
-                  <form action="T_SetCredential2.php?id=<?php echo $_GET['user_id'];?>" method="get">
+                  <form action="T_SetCredential1.php?id=<?php echo $_GET['user_id'];?>" method="get">
                     <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
                       <i class="fa fa-pencil"></i>
                       Set Credentials

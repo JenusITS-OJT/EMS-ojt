@@ -90,7 +90,7 @@ else
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" required></input>
+                    <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" min="<?php echo $yes; ?>" required></input>
                   </div>
                   <!-- /.input group -->
                 </div>
@@ -182,21 +182,21 @@ else
                   </td>
                   <td>
                     <div class="btn-group">
-                        <form action="CM_Holiday1.php?id=<?php echo $_GET['id'];?>" method="get">
+                        <a href="CM_Holiday1.php?id=<?php echo $id;?>">
                           <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
                             <i class="fa fa-pencil"></i>
                             Update
                           </button>
                           <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </form>
+                        </a>
                           &nbsp;
-                        <form action="CM_Holiday2.php?id=<?php echo $_GET['id'];?>" method="get">
+                        <a href="CM_Holiday2.php?id=<?php echo $id;?>">
                           <button type="submit" class="btn btn-danger btn-flat btn-sm"  value="Delete">
                             <i class="fa fa-trash"></i>
                             Delete
                           </button>
                           <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                        </form>
+                        </a>
                     </div>
                   </td>
                 </tr>

@@ -61,9 +61,6 @@
 
               <div class="box-body">
                 <div id="logs" class="logs_wrapper form-inline dt-bootstrap">
-                 <hr>
-
-                  <br>
 
                  <div class="row">
                  <div class="col-sm-12">
