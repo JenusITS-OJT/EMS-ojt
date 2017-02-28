@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
-<?php require('F_Connection.php') ?>
+<?php require('F_Connection.php');?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel='shortcut icon' type='image/x-icon' href='logo.png'/>
   <title>Jenus ITS</title>
+
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -39,151 +40,77 @@
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
+
       <section class="content-header">
         <h1>
-          Queries
-          <small>| Employee Schedule </small>
+          Employee Management System
+          <small>| My Schedule</small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="S_Dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Employee Schedule</li>
+          <li class="active">Schedule</li>
         </ol>
       </section>
       <br>
-    <!-- Main content -->
+
+      <!-- Main content -->  
       <section class="content">
-        <!-- Info boxes --><!-- 
-        <div class="row"> -->
-        <div class="box box-warning">
-            <div class="box-header">
-              <h3 class="box-title"> Employee Schedule </h3>
-             </div>
+        <!-- SELECT2 EXAMPLE -->
 
-              <div class="box-body">
-                <div id="logs" class="logs_wrapper form-inline dt-bootstrap">
-                  <div class="row">
-                  <div class="col-sm-6">
-                  <div class="dataTables_Length" id="logsort">
-                  <label>
-                    Show            
-                      <select name="loglist" aria-controls="log" class="form-control input-sm">
-                      <option value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      </select>
-                    entries
-                  </label>
-                  </div><!--datatable-->
-                  </div><!--col sm 6-->
-                  </div><!--row-->
+       <div class="box box-warning">
+          <div class="box-header">
+            <b><h1 class="box-title">Your Schedules</h1></b>
+          </div>
 
-                  <br>
+          <div class="box-body" style="overflow-x:auto;">
+            <table id="employeelist" class="table table-bordered table-striped">
 
-                 <div class="row">
-                 <div class="col-sm-12">
-                <div class="table-responsive" style="overflow-x:auto;">
-
-
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                    <th>Employee ID</th>
-                    <th>Employee Name</th>
-                    <th>Date</th>
-                    <th>Day</th>
-                    <th>Starting Time</th>
-                    <th>Time-Out</th>
-                     <th>Status</th>
-                      </tr>
-                    </thead>
-
-                    
-
-                    <tbody>
-
-                    <?php $sql="SELECT 
-                    e.`ID`, CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name, 
-                    DATE_FORMAT(s.`DATE`,'%M %d, %Y'), 
-                    DATE_FORMAT(s.`DATE`,'%W'), 
-                    DATE_FORMAT(s.`Starting_Time`,'%r'), 
-                    DATE_FORMAT(s.`Time_Out`,'%r'), 
-                    s.`Status` FROM `employee` AS e 
-                    INNER JOIN `schedule` AS s
-                    ON e.`user_id` = s.`Emp_ID`
-                    Where e.`user_id` = s.`Emp_ID`
-                    ";
+          <?php
+                  $sql="SELECT 
+                      `date`, `Starting_Time`, `Time_Out`
+                      from `Schedule` where `Emp_ID` = $userid and `date` >= NOW();";
                     $result = mysqli_query($con, $sql);
-                    while($row = mysqli_fetch_array($result)){
+                    $count = mysqli_num_rows($result);
+                    ?>
+
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Day</th>
+                  <th>Schedule In</th>
+                  <th>Schedule Out</th>
+                </tr>
+              </thead>
+
+              </thead>
+                <tbody>
+                  <?php
+                      while($row = mysqli_fetch_array($result)){
                   ?>
-
-                      <tr>  
-                      <?php $userid=$row[0] ?>
-                      <td><?php echo $row[0] ?></td>
-                      <td><?php echo $row[1] ?></td>  
-                      <td><?php echo $row[2] ?></td>                 
-                      <td><?php echo $row[3] ?></td>  
-                      <td><?php echo $row[4] ?></td>
-                      <td><?php echo $row[5] ?></td> 
-                      <td><?php if ($row[6] == 1)
-                              echo "Active";
-                            else 
-                              echo "Inactive";
-                            ?>
-                    
-                      </td>
-                   
-                    
-                      </tr>
-                       <?php } ?>  
-                    </tbody>
-                    <tfoot></tfoot>
-                  </table>
-                </div>
-                  </div><!--row-->
-                  </div>
-                  <!--div id table-->
-              </div>
-              <!--div box-body-->
-<!-- 
-                  
-                    <div class="box box-footer ">
-                    <div class="col-md-12 pull-right">
-                    <div class="dataTables_Paginate paging_simple_numbers" id="logpaginate">
-                      <ul class="pagination">
-                        <li class="pagiinate_button previous disable" id="previous">
-                          <a href="#" data-dt-idx="0" tab-index="0">Previous</a>
-                        </li>
-                         <li class="pagiinate_button previous disable" id="1">
-                          <a href="#" data-dt-idx="0" tab-index="1">1</a>
-                        </li>
-                         <li class="pagiinate_button previous disable" id="2">
-                          <a href="#" data-dt-idx="0" tab-index="2">2</a>
-                        </li>
-                         <li class="pagiinate_button previous disable" id="3">
-                          <a href="#" data-dt-idx="0" tab-index="3">3</a>
-                        </li>
-                         <li class="pagiinate_button previous disable" id="next">
-                          <a href="#" data-dt-idx="0" tab-index="4">Next</a>
-                        </li>
-
-                      </ul>
-                    </div>
-                    </div>
-                    </div> -->
+                  <tr>
+                    <td><?php echo $row[0] ?></td>
+                    <td><?php echo date("l", strtotime($row[0])); ?></td>
+                    <td><?php echo date("G:i A", strtotime($row[1]));?></td>
+                    <td><?php echo date("G:i A", strtotime($row[2])); ?></td>
+                  </tr>
+                  <?php }
+                   ?>                    
+                </tbody>
+              </tfoot>
+            </tfoot>
+          </table>
         </div>
-        <!-- div box -->
-        <!-- </div> -->
-        <!--div row-->
+      </div>
       </section>
-    <!-- /.content -->
+    <!-- /.box -->
     </div>
-  <!-- /.content-wrapper -->
+  <!-- ./wrapper -->
+            
 <?php require('S_Footer.php');?>
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
-  </div>
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
@@ -223,5 +150,86 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+
+<script>
+  $(function () {
+      //Initialize Select2 Elements
+    $(".select2").select2();
+
+    //Datemask dd/mm/yyyy
+    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    //Datemask2 mm/dd/yyyy
+    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+    //Money Euro
+    $("[data-mask]").inputmask();
+
+    //Date range picker
+    $('#reservation').daterangepicker();
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+        {
+          ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate: moment()
+        },
+        function (start, end) {
+          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+    );
+  //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    });
+
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass: 'iradio_minimal-blue'
+    });
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass: 'iradio_minimal-red'
+    });
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'iradio_flat-green'
+    });
+
+    //Colorpicker
+    $(".my-colorpicker1").colorpicker();
+    //color picker with addon
+    $(".my-colorpicker2").colorpicker();
+
+    //Timepicker
+    $(".timepicker").timepicker({
+      showInputs: false
+    });
+  
+  $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
 </body>
 </html>
