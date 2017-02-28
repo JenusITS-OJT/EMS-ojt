@@ -143,10 +143,7 @@
     <th><center><h3>Date Hired</h3></center></th>
     <th><center><h3>Status</h3></center></th>
   </tr>
-  <?php $sql="SELECT e.`ID`,
-                  CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name, 
-                  e.`Branch_ID`, e.`Dept_ID`, e.`JobTitle_ID`, DATE_FORMAT(e.`Date_Hired`,'%M %d, %Y'),   e.`Status_ID` 
-                  FROM `employee` as e INNER JOIN `job` as j on  j.`ID` = e.`JobTitle_ID` where j.`Dept_ID` = '$id' ORDER BY `name`";
+  <?php $sql="SELECT e.`ID`, CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name, DATE_FORMAT(e.`Date_Hired`,'%M %d, %Y'), b.`Address`, d.`Dept_Name`, j.`Job_Title`, s.`Status_Name` FROM Employee as e INNER JOIN branch as b on b.`id` = e.`Branch_ID` inner join job as j on j.`ID` = e.`JobTitle_ID` INNER JOIN department as d ON d.`ID` = j.`Dept_ID` INNER JOIN status as s ON s.`ID` = e.`Status_ID` ORDER BY name";
                     $result = mysqli_query($con, $sql);
                     while($row = mysqli_fetch_array($result)){
                   ?>
@@ -197,14 +194,7 @@
     <th><center><h3>Date Hired</h3></center></th>
     <th><center><h3>Status</h3></center></th>
   </tr>
-  <?php $sql="SELECT e.`ID`,
-                  CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name, 
-                  e.`Branch_ID`, 
-                  e.`Dept_ID`, 
-                  e.`JobTitle_ID`, 
-                  DATE_FORMAT(e.`Date_Hired`,'%M %d, %Y'),   
-                  e.`Status_ID` 
-                  FROM Employee as e where e.`Dept_ID` = '$id' ORDER BY `name`";
+  <?php $sql="SELECT e.`ID`, CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name, DATE_FORMAT(e.`Date_Hired`,'%M %d, %Y'), b.`Address`, d.`Dept_Name`, j.`Job_Title`, s.`Status_Name` FROM Employee as e INNER JOIN branch as b on b.`id` = e.`Branch_ID` inner join job as j on j.`ID` = e.`JobTitle_ID` INNER JOIN department as d ON d.`ID` = j.`Dept_ID` INNER JOIN status as s ON s.`ID` = e.`Status_ID` ORDER BY name";
                     $result = mysqli_query($con, $sql);
                     while($row = mysqli_fetch_array($result)){
                   ?>
