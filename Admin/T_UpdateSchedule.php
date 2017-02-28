@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <?php 
     require('F_Connection.php');
+    require('S_Header.php');
+    require('S_Sidebar.php');
     if (isset($_GET['datepicker']))
     $datepicker = $_GET['datepicker'];
   else
@@ -44,8 +46,7 @@
     }
   </style>
 </head>
-<?php require('S_Header.php');?>
-<?php require('S_Sidebar.php');?>
+
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
@@ -161,8 +162,8 @@
                     <td><?php echo $row[1] ?></td>
                     <td><?php echo $row[2] ?></td>
                     <td><?php echo $row[3] ?></td>
-                    <td><?php echo date("G:iA", strtotime($row[4]));?></td>
-                    <td><?php echo date("G:iA", strtotime($row[5])); ?></td>
+                    <td><?php echo date("h:i A", strtotime($row[4]));?></td>
+                    <td><?php echo date("h:i A", strtotime($row[5])); ?></td>
                     <td>
                       <div class="btn-group">
                           <a href="T_UpdateSchedule1.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>&sid=<?php echo $sid;?>"><button type="submit" class="btn btn-success btn-sm">

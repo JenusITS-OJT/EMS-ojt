@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <?php
     require('F_Connection.php');
-    if (isset($_GET['datepicker']) AND isset($_GET['id']) ){
-      $datepicker = $_GET['datepicker'];
-      $empid = $_GET['id'];
-    }
-    else
-      header("Location: T_UpdateSchedule.php");
+    require('S_Header.php');
+    require('S_Sidebar.php');
+    if (isset($_GET['datepicker'])){
+    $datepicker = $_GET['datepicker'];
+    $empid = $_GET['id'];
+    $sid = $_GET['sid'];
   }
 ?>
 <html>
@@ -47,8 +47,7 @@
     }
   </style>
 </head>
-<?php require('S_Header.php');?>
-<?php require('S_Sidebar.php');?>
+
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
