@@ -38,6 +38,13 @@ require ('F_Connection.php');
             <span>Profile</span>
           </a>
         </li>
+
+        <li class="treeview">
+          <a href="T_ViewSchedule.php">
+            <i class="fa fa-calendar"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
