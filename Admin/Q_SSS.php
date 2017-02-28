@@ -61,22 +61,7 @@
 
               <div class="box-body">
                 <div id="logs" class="logs_wrapper form-inline dt-bootstrap">
-                  <div class="row">
-                  <div class="col-sm-6">
-                  <div class="dataTables_Length" id="logsort">
-                  <label>
-                    Show            
-                      <select name="loglist" aria-controls="log" class="form-control input-sm">
-                      <option value="5">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                      </select>
-                    entries
-                  </label>
-                  </div><!--datatable-->
-                  </div><!--col sm 6-->
-                  </div><!--row-->
+                 <hr>
 
                   <br>
 
@@ -363,7 +348,7 @@
                       <td>810.30</td>
                       <td>399.70</td>
                       <td>1,210.00</td>
-                      <td>10.00</td>1`
+                      <td>10.00</td>
                       <td>820.30</td>
                       <td>399.70</td>
                       <td>1,220.00</td>
