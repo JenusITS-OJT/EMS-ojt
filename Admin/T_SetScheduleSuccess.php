@@ -159,7 +159,7 @@
                     <td><?php echo $row[3] ?></td>
                     <td>
                       <div class="btn-group">
-                          <a href="T_SetSchedule2.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>"><button type="submit" class="btn btn-success btn-sm">
+                          <a href="T_SetSchedule1.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>"><button type="submit" class="btn btn-success btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span> 
                             Set Schedule
                           </button>
