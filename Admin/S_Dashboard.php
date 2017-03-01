@@ -222,10 +222,11 @@
 
                   if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00')
                     $stat = 'Time-Out';
+                }
 
                   if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout != '0000-00-00 00:00:00')
                     $stat = 'Time-In';
-                }
+                
               else
                 $stat = 'Time-In';
                 /*$id = 0;*/
@@ -236,8 +237,32 @@
 
             <center>
               <form action="F_Time_.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
-                <button type="submit" class="btn btn-success btn-flat"  value="Start-Lunch">
-                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
+              
+                <button type="submit" name="b1" class="btn btn-success btn-flat"  value="Start-Lunch" 
+                  <?php 
+                         if(!empty($id) && $breakin == '0000-00-00 00:00:00')
+                              $stat = 'Start Lunch Break';
+
+                            if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout == '0000-00-00 00:00:00')
+                              $stat = 'End Lunch Break';
+
+                          ?> disable <?php   
+
+                ?>  onclick="Start-Lunch"
+                        />
+                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat ; ?>
+                </button>
+                &nbsp;
+                 <button type="submit" class="btn btn-success btn-flat"  
+                         value="Time-Out" 
+                         <?php 
+                         if(!empty($id) && $timeout == '0000-00-00 00:00:00')
+
+                          ?><?php 
+
+                
+                         ?> onclick="Time-Out" />
+                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat = 'Time-Out'; ?>
                 </button>
                 <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                 <input type="hidden" name="userid" value="<?php echo $userid; ?>">
