@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <?php
     require('F_Connection.php');
-    require('S_Header.php');
-    require('S_Sidebar.php');
-    if (isset($_GET['datepicker'])){
-    $datepicker = $_GET['datepicker'];
-    $empid = $_GET['id'];
-  }
+    if (isset($_GET['datepicker']) AND isset($_GET['id']) ){
+      $datepicker = $_GET['datepicker'];
+      $empid = $_GET['id'];
+    }
+    else
+      header("Location: T_SetSchedule.php");
 ?>
 <html>
 <head>
@@ -46,7 +46,8 @@
     }
   </style>
 </head>
-
+<?php require('S_Header.php');?>
+<?php require('S_Sidebar.php');?>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
@@ -70,61 +71,66 @@
       <section class="content">
 
         <div class="box box-warning">
-          <div class="box-header">
+          <div class="box-header with-border">
             <b><h1 class="box-title">Set Employee's Schedule</h1></b>
           </div>
 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>* Fill out the required fields</small>
+          <form action="F_T_SetSchedule.php" method="get">
+            <div class="box-body" style="overflow-x:auto;">
 
-          <div class="box-body" style="overflow-x:auto;">
+              <input type="hidden" name="empid" id="empid" value="<?php echo $empid; ?>"/>
 
-            <form action="F_T_SetSchedule.php" method="get">
+              <?php $sql="SELECT `id`,
+                CONCAT(`Last_Name`,', ',`First_Name`,' ',`Middle_Name`) AS name
+                FROM `Employee` where `user_id` = $empid;";
+                $result = mysqli_query($con, $sql);
+                while($row = mysqli_fetch_array($result)){
+              ?>
 
-            <input type="hidden" name="empid" id="empid" value="<?php echo $empid; ?>"/>
-
-            <?php $sql="SELECT `id`,
-              CONCAT(`Last_Name`,', ',`First_Name`,' ',`Middle_Name`) AS name
-              FROM `Employee` where `user_id` = $empid;";
-              $result = mysqli_query($con, $sql);
-              while($row = mysqli_fetch_array($result)){
-            ?>
-
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Set Schedule of</label>
-                    <input type="text" class="form-control" value="<?php echo $row[1]; ?>" readonly>
-                  </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Set Schedule of</label>
+                  <input type="text" class="form-control" value="<?php echo $row[1]; ?>" readonly>
                 </div>
+              </div>
 
-                <?php }?>
+              <?php }?>
 
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Date of Schedule</label>
-                    <input type="text" class="form-control" id="datepicker2" name="datepicker2" value="<?php echo $datepicker?>" readonly>
-                  </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Date From</label>
+                  <input type="date" class="form-control" id="datepicker1" name="datepicker1" value="<?php echo $datepicker?>" required></input>
                 </div>
+              </div>
 
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Scheduled Time In</label><red>*</red>
-                    <input type="time" class="form-control" id="timein" name="timein" required>
-                  </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Date To</label>
+                  <input type="date" class="form-control" id="datepicker2" name="datepicker2" value="<?php echo $datepicker ?>" required></input>
                 </div>
+              </div>
 
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Scheduled Time Out  </label><red>*</red>
-                    <input type="time" class="form-control" id="timeout" name="timeout" required>
-                  </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Scheduled Time In</label><red>*</red>
+                  <input type="time" class="form-control" id="timein" name="timein" required>
                 </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Scheduled Time Out  </label><red>*</red>
+                  <input type="time" class="form-control" id="timeout" name="timeout" required>
+                </div>
+              </div>
+            </div>
 
             <div class="box-footer" align="right">
-                  <button type="submit" class="btn btn-primary">Set Schedule</button>&nbsp;&nbsp;&nbsp;
-                  <a href = "T_Set Schedule.php"><button type="button" class="btn btn-default">Cancel</button></a>
-                </div>
+              <button type="submit" class="btn btn-primary">Set Schedule</button>&nbsp;&nbsp;&nbsp;
+              <a href = "T_Set Schedule.php"><button type="button" class="btn btn-default">Cancel</button></a>
+            </div>
 
-            </form>
+          </form>
         </div>
 
       </section>

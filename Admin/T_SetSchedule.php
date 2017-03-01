@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <?php 
     require('F_Connection.php');
-    require('S_Header.php');
-    require('S_Sidebar.php');
-    if (isset($_GET['datepicker']))
+    if (isset($_GET['datepicker'])){
     $datepicker = $_GET['datepicker'];
+  }
   else
     $datepicker = date("Y-m-d");
   ?>
@@ -46,7 +45,8 @@
     }
   </style>
 </head>
-
+<?php require('S_Header.php');?>
+<?php require('S_Sidebar.php');?>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
@@ -104,7 +104,7 @@
       </div>
 
 
-          <div class="box box-warning">
+        <div class="box box-warning">
           <div class="box-header">
             <b><h1 class="box-title">Employee List</h1></b>
           </div>
