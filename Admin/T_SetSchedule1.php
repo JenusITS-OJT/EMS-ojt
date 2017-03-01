@@ -99,7 +99,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Date From</label>
-                  <input type="text" class="form-control" id="datepicker1" name="datepicker1" value="<?php echo $datepicker?>" readonly>
+                  <input type="date" class="form-control" id="datepicker1" name="datepicker1" value="<?php echo $datepicker?>" required></input>
                 </div>
               </div>
 
