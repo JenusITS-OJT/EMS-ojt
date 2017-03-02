@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<?php require('F_Connection.php') ?>
+<?php require('F_Connection.php');
+if (isset($_GET['id']))
+  $id = $_GET['id'];
+else
+   header("Location: T_SetCredential.php");
+?>
 <html>
 <head>
   <meta charset="utf-8">
@@ -52,6 +57,65 @@
       </section>
       <!-- Main content -->  
       <section class="content">
+
+        <form action="F_T_SetCredential2.php" method="get">
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Delete Record?</h3>
+            </div>
+            <div class="box-body" style="overflow-x:auto;">
+              <h4>Do you want to delete the record below?</h4>
+              <small>You will not be able to retrieve this anymore.</small>
+              <br/><br/>
+              <table id="credential" class="table table-bordered table-striped">
+                <?php $sql="SELECT `user_ID`,
+                  CONCAT(`First_Name`, ' ' ,`Middle_Name`, ' ' , `Last_Name`),
+                  `email`, 
+                  `contact_no`,
+                  DATE_FORMAT(`Date_Acct_Created`, '%M %d, %Y %r')
+                  FROM `employee`
+                  WHERE `user_id` = $id";
+                  $result = mysqli_query($con, $sql);
+                  while($row = mysqli_fetch_array($result)){
+                  $name = $row[1];
+                  $email = $row[2];
+                  $contact = $row[3];
+                  $date = $row[4];
+                  }
+                ?>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Registered Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><?php echo $name ?></td>
+                    <td><?php echo $email ?></td>
+                    <td><?php echo $contact ?></td>
+                    <td><?php echo $date ?></td>
+                  </tr>                   
+                </tbody>
+              </table>
+            </div>
+            <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+            <div class="box-footer" align="right">
+              <button type="submit" class="btn btn-danger btn-flat">
+                <i class="fa fa-trash"></i>
+                Delete
+              </button>
+              &nbsp;&nbsp;&nbsp;
+              <a href="T_SetCredential.php" type="button" class="btn btn-default btn-flat"">
+                <i class="fa fa-remove"></i>
+                Cancel
+              </a>
+            </div>
+          </div>
+        </form>
+
         <div class="box box-warning">
           <div class="box-header with border">
             <h3 class="box-title">Employees' Data</h3>
@@ -118,7 +182,7 @@
           </div>
           <!-- /.box-body -->
         </div>
-	    </section>
+      </section>
     </div>
   </div>
   <!-- ./wrapper -->
@@ -206,7 +270,7 @@
           $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         }
     );
-	//Date picker
+  //Date picker
     $('#datepicker').datepicker({
       autoclose: true
     });
@@ -236,8 +300,8 @@
     $(".timepicker").timepicker({
       showInputs: false
     });
-	
-	$("#example1").DataTable();
+  
+  $("#example1").DataTable();
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

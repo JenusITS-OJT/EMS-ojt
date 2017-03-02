@@ -1,0 +1,54 @@
+Pointers to QA v1 March 02, 2017
+
+CM - Configuration Management
+T - Transaction
+Q - Queries
+R - Report
+F - Functionalities [php file]
+S - System
+1 - Update
+2 - Delete
+3 - Successful
+4 - Unsuccessful
+
+UI
+	Favicon
+	Title: Jenus ITS
+	Content Header: Employee Management System | [Page Name]
+	Breadcumb:	Name			Class		Link
+			1.	Home			dashboard	S_Dashboard.php
+			2.	Category
+			*	Dashboard   	Active		-
+			*	Config			gear		#
+			*	Transac			tasks		#
+			*	Queries			Search		#
+			*	Reports			news		#
+			3.	[Page Name]		Active		-
+	Box Class: Warning
+	Box Title:
+	Button Box Tools: Dapat wala
+	Box Header: With Border
+	Box Footer: With Border
+	Buttons: flat and small
+		Color:
+			Info (Aqua) - Save
+			Success (Green) - Update
+			Danger (Red) - Delete
+			Primary (Blue) - Go
+			Default (Gray) - Cancel
+		Icon:
+			fa-eye - view
+			fa-edit - update/edit
+			fa-trash - delete
+			fa-save - save
+			fa fa-remove - cancel
+			
+
+
+Code
+	F_Connection.php before opening html tag
+	Pages with 1-4: Redirection
+	S_Header and S_Sidebar after body tag
+	No <br> after first section
+	Table Class: table table-bordered table-striped
+	<tbody> not <tfoot>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
 <?php require('F_Connection.php');
 if (isset($_GET['id']))
   $id = $_GET['id'];
 else
    header("Location: T_SetCredential.php");
 ?>
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,84 +55,84 @@ else
           <li class="active">Set Credentials</li>
         </ol>
       </section>
-      <br>
       <!-- Main content -->  
       <section class="content">
-      <!-- SELECT2 EXAMPLE -->
-
         <div class="alert alert-success alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h4><i class="icon fa fa-check"></i> Registration Success!</h4>
           Employee's credentials has been set. To view employee's list, click
-          <a href= "T_ViewEmployeeList.php"><b>Here</b></a>
+          <a href= "T_ViewEmployeeList.php"><b>here</b></a>
         </div>
-
         <div class="box box-warning">
-            <div class="box-header">
-              <h3 class="box-title">Employees' Data</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="overflow-x:auto;">
-              <?php $sql="SELECT `user_ID`, `id`, CONCAT(`First_Name`, ' ' ,`Middle_Name`, ' ' , `Last_Name`),
-                  `email`, `contact_no` FROM `employee` where `date_hired` is null or `date_hired` = '0000-00-00'";
-                    $result = mysqli_query($con, $sql);
-
-                    ?>
-              <?php
-                    $yes = mysqli_num_rows($result);
-                    if($yes >= 1)
-                    { 
-                  ?>
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Jenus ID</th>
-                    <th>Employee Name</th>
-                    <th>Email</th>
-                    <th>Contact Number</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
+          <div class="box-header with border">
+            <h3 class="box-title">Employees' Data</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body" style="overflow-x:auto;">
+            <?php $sql="SELECT `user_ID`,
+              CONCAT(`First_Name`, ' ' ,`Middle_Name`, ' ' , `Last_Name`),
+              `email`, 
+              `contact_no`,
+              DATE_FORMAT(`Date_Acct_Created`, '%M %d, %Y %r')
+              FROM `employee` 
+              WHERE `date_hired` IS NULL 
+              OR `date_hired` = '0000-00-00'";
+              $result = mysqli_query($con, $sql);
+              $yes = mysqli_num_rows($result);
+              if($yes >= 1)
+              {
+            ?>
+            <table id="SetCredential" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Email</th>
+                  <th>Contact Number</th>
+                  <th>Registered Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
                 
-                <tbody>
-                  <?php
-                    while($row = mysqli_fetch_array($result)){
-                      ?>
-                  <tr>
-                    <?php $row[0] ?>
-                    <td><?php echo $row[1] ?></td>
-                    <td><?php echo $row[2] ?></td>
-                    <td><?php echo $row[3] ?></td>
-                    <td><?php echo $row[4] ?></td>
-                    <td>
-                      <form action="T_SetCredential1.php?id=<?php echo $_GET['user_id'];?>" method="get">
-                        <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
-                          <i class="fa fa-pencil"></i>
+              <tbody>
+                <?php
+                  while($row = mysqli_fetch_array($result)){
+                ?>
+                <tr>
+                  <td><?php echo $row[1] ?></td>
+                  <td><?php echo $row[2] ?></td>
+                  <td><?php echo $row[3] ?></td>
+                  <td><?php echo $row[4] ?></td>
+                  <td>
+                    <a href="T_SetCredential1.php?id=<?php echo $row[0]; ?>">
+                      <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
+                          <i class="fa fa-edit"></i>
                           Set Credentials
-                        </button>
-                        <input type="hidden" name="id" value="<?php echo $row[0]; ?>"/>
-                      </form>
-                    </td>
-                  </tr>
-                  <?php }
+                      </button>
+                    </a>
+                    <a href="T_SetCredential2.php?id=<?php echo $row[0]; ?>">
+                      <button type="submit" class="btn btn-danger btn-flat btn-sm"  value="Delete">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                      </button>
+                    </a>
+                  </td>
+                </tr>
+                <?php }
                   }
                   else
                   {
                     echo '<center><h1>No Latest Registration yet!</h1></center><br>';
                   }
-                   ?>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
+                ?>
+              </tbody>
+            </table>
           </div>
-
-          
-	    </section>
-      <!-- /.box -->
-	</div>
-</div>
-    <!-- ./wrapper -->
+          <!-- /.box-body -->
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- ./wrapper -->
 
 <?php require('S_Footer.php');?>
   <!-- Add the sidebar's background. This div must be placed
@@ -217,7 +217,7 @@ else
           $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         }
     );
-	//Date picker
+  //Date picker
     $('#datepicker').datepicker({
       autoclose: true
     });
@@ -247,8 +247,8 @@ else
     $(".timepicker").timepicker({
       showInputs: false
     });
-	
-	$("#example1").DataTable();
+  
+  $("#example1").DataTable();
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
