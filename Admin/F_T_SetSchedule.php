@@ -42,6 +42,16 @@
                     $stm = mysqli_query($con, $sql);
                     myResponse($stm,$msg);
                 }
+                else
+                {
+                    $msg = "Updated";
+                    $sql="UPDATE `schedule`
+                    SET`Starting_Time` =  '$timein',
+                     `Time_Out` = '$timeout'
+                     WHERE `Emp_ID` = '$empid' AND `Date` = '$date';";
+                    $stm = mysqli_query($con, $sql);
+                    myResponse($stm,$msg);   
+                }
     }
 
 function myResponse($stm, $msg){
