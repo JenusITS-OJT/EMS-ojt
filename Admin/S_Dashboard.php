@@ -199,6 +199,8 @@
               <?php $today = date("l, F j, Y");
               echo $today;
 
+              $status = 0;
+
               $result = mysqli_query($con, "SELECT `Time_In`, `Break_In`, `Break_Out`, `Time_Out`, `ID` FROM `time` WHERE `User_ID` = '$userid' AND DATE(`Time_In`) = CURDATE() ORDER BY `Time_In` DESC LIMIT 1");
 
               $yes = mysqli_num_rows($result);
@@ -240,28 +242,38 @@
               
                 <button type="submit" name="b1" class="btn btn-success btn-flat"  value="Start-Lunch" 
                   <?php 
-                         if(!empty($id) && $breakin == '0000-00-00 00:00:00')
+                          if($timeout != '0000-00-00 00:00:00')
+                          {
+                            ?> enabled <?php
+                          }
+
+                         else if(!empty($id) && $breakin == '0000-00-00 00:00:00'){
                               $stat = 'Start Lunch Break';
-
-                            if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout == '0000-00-00 00:00:00')
+                            }
+                            else if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout == '0000-00-00 00:00:00'){
                               $stat = 'End Lunch Break';
-
-                          ?> disable <?php   
-
-                ?>  onclick="Start-Lunch"
-                        />
+                            }
+                            else
+                            {
+                              ?> disabled <?php
+                            }
+                          ?> >
                   <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat ; ?>
                 </button>
+
                 &nbsp;
-                 <button type="submit" class="btn btn-success btn-flat"  
+                 <button type="submit" class="btn btn-danger btn-flat" name ="b2" id ="b2"
                          value="Time-Out" 
                          <?php 
-                         if(!empty($id) && $timeout == '0000-00-00 00:00:00')
-
-                          ?><?php 
-
-                
-                         ?> onclick="Time-Out" />
+                         if(!empty($id) || $breakin == '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00')
+                            {?>enabled
+                          <?php }
+                          else
+                          {
+                            ?>
+                            disabled<?php
+                          }
+                          ?> >
                   <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat = 'Time-Out'; ?>
                 </button>
                 <input type="hidden" name="id" value="<?php echo $id; ?>"/>

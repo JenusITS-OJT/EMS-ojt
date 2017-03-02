@@ -62,6 +62,20 @@ if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00
         myResponse($stm,$msg,$userid);
     }
 
+
+//Half-day
+if(!empty($id) && $breakin == '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00'){
+        $msg = "Updated";
+        $sql="UPDATE `time`
+                SET
+                  `Break_In` = '0000-00-00 00:00:00',
+                  `Break_Out` = '0000-00-00 00:00:00',
+                  `Time_Out` = NOW()
+                WHERE `User_ID` = '$userid' && `id` = '$id';";
+        $stm = mysqli_query($con, $sql);
+        myResponse($stm,$msg,$userid);
+}
+
 //Again
 if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout != '0000-00-00 00:00:00' && $timeout != '0000-00-00 00:00:00'){
     $msg = "Added";

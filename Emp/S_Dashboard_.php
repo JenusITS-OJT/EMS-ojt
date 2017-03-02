@@ -145,13 +145,47 @@ $userid=$_SESSION['session']['userid'];
       </body>
 
           <center>
-                    <form action="F_Time.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
-                      <button type="submit" class="btn btn-success btn-flat"  value="Start-Lunch">
-                        <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat; ?>
-                      </button>
-                      <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                      <input type="hidden" name="userid" value="<?php echo $userid; ?>">
-                    </form>
+    <form action="F_Time.php?userid=<?php echo $_GET['userid'];?>&id=<?php echo $_GET['id'];?>" method="get">
+              
+                <button type="submit" name="b1" class="btn btn-success btn-flat"  value="Start-Lunch" 
+                  <?php 
+                          if($timeout != '0000-00-00 00:00:00')
+                          {
+                            ?> enabled <?php
+                          }
+
+                         else if(!empty($id) && $breakin == '0000-00-00 00:00:00'){
+                              $stat = 'Start Lunch Break';
+                            }
+                            else if(!empty($id)  && $breakin != '0000-00-00 00:00:00' && $breakout == '0000-00-00 00:00:00'){
+                              $stat = 'End Lunch Break';
+                            }
+                            else
+                            {
+                              ?> disabled <?php
+                            }
+                          ?> >
+                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat ; ?>
+                </button>
+
+                &nbsp;
+                 <button type="submit" class="btn btn-danger btn-flat" name ="b2" id ="b2"
+                         value="Time-Out" 
+                         <?php 
+                         if(!empty($id) || $breakin == '0000-00-00 00:00:00' && $timeout == '0000-00-00 00:00:00')
+                            {?>enabled
+                          <?php }
+                          else
+                          {
+                            ?>
+                            disabled<?php
+                          }
+                          ?> >
+                  <i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo $stat = 'Time-Out'; ?>
+                </button>
+                <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+                <input type="hidden" name="userid" value="<?php echo $userid; ?>">
+              </form>
           </center>   
         <br>
     </div>

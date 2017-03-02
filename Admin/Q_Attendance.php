@@ -12,6 +12,10 @@
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+  <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
@@ -19,16 +23,6 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
-  <!-- Morris chart -->
-  <link rel="stylesheet" href="plugins/morris/morris.css">
-  <!-- jvectormap -->
-  <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 </head>
@@ -54,38 +48,43 @@
       <section class="content">
         <!-- Info boxes --><!-- 
         <div class="row"> -->
+      <div class="col-md-12">
         <div class="box box-warning">
             <div class="box-header">
               <h3 class="box-title"> Attendance </h3>
              </div>
 
-              <div class="box-body">
-                <div id="logs" class="logs_wrapper form-inline dt-bootstrap">
-                  <div class="row">
-                  <div class="col-sm-6">
-                  <div class="dataTables_Length" id="logsort">
-                  <label>
-                    Show            
-                      <select name="loglist" aria-controls="log" class="form-control input-sm">
+          <div class="box-body">
+            <div id="example1_wrappper" class="dataTables_wrapper form-inline">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <div class="dataTables_Lenght" id="example1_length">
+                      <label> Show 
+
+                      <select name="example1_lenght" aria-controls=" example1" class="form-control input-sm">
+                      <option value="-1">All</option>
                       <option value="10">10</option>
                       <option value="25">25</option>
                       <option value="50">50</option>
                       <option value="100">100</option>
-                      </select>
-                    entries
-                  </label>
-                  </div><!--datatable-->
-                  </div><!--col sm 6-->
-                  </div><!--row-->
-
-                  <br>
-
-                 <div class="row">
-                 <div class="col-sm-12">
-                <div class="table-responsive" style="overflow-x:auto;">
-
-
-                  <table class="table table-bordered table-striped">
+                      </select> entries
+                      <!-- <script jQuery('#example1').dataTable({
+                       oLanguage: {sLengthMenu: <select name="example1_lenght" aria-controls=" example1" class="form-control input-sm">
+                         <option value="-1">All</option>
+                         <option value="10">10</option>
+                         <option value="25">25</option>
+                         <option value="50">50</option>
+                         <option value="100">100</option>
+                        </select>},
+                        "iDisplayLength":100
+                         entries
+                         }); >
+                         </script> -->
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                  <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
                      <th>Employee Name</th>
@@ -160,11 +159,32 @@
                        <?php } ?>  
                     </tbody>
                   </table>
-                </div>
-                  </div><!--row-->
+                  <div class="row">
+                  <div class="col-md-3">
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                      <ul class="pagination">
+                       <li class="paginate_button previous disable" id="example1_previous">
+                        <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a>
+                        </li>
+                        <li class="paginate_button previous disable" id="example1_previous">
+                        <a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0">1</a>
+                        </li>
+                        <li class="paginate_button previous disable" id="example1_previous">
+                        <a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0">2</a>
+                        </li>
+                        <li class="paginate_button previous disable" id="example1_previous">
+                        <a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0">3</a>
+                        </li>
+                        <li class="paginate_button next" id="example1_next">
+                        <a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0">Next</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                  <!--div id table-->
-              </div>
+                </div>
+            </div>
+        </div>
+      </div>
               <!--div box-body-->
 <!-- 
                   
@@ -217,21 +237,10 @@
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
-<!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="plugins/morris/morris.min.js"></script>
-<!-- Sparkline -->
-<script src="plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
 <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="plugins/knob/jquery.knob.js"></script>
-<!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-<script src="plugins/daterangepicker/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+
 <!-- Bootstrap WYSIHTML5 -->
 <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Slimscroll -->
@@ -244,5 +253,22 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+
+  $(function () {
+    $("#example1").DataTable();
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
 </body>
 </html>
