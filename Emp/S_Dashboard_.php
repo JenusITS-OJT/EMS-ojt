@@ -335,7 +335,7 @@ $userid=$_SESSION['session']['userid'];
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-warning">
               <div class="box-header with-border">
-                <h3 class="box-title text-blue">System Logs</h3>
+                <h3 class="box-title text-blue">Attendance Logs</h3>
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
@@ -349,44 +349,48 @@ $userid=$_SESSION['session']['userid'];
               <div class="box-body">
                 <div class="table-responsive" style="overflow-x:auto;">
                   <?php
-                      $string = $result = mysqli_query($con, "SELECT Login_Time, Logout_Time FROM log WHERE `user_id` = '$userid' ORDER BY Login_Time DESC LIMIT 10");
-                      $yes = mysqli_num_rows($result);
-
-                      if($yes >= 1){
+                  $sql="SELECT 
+                      `date`, `Status`
+                      from `Attendance` where `Emp_ID` = $userid";
+                    $result = mysqli_query($con, $sql);
+                    $count = mysqli_num_rows($result);
                     ?>
                   <table id = "myTable"class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                      <th>Time of Log-In</th>
-                      <th>Time of Log-Out</th>
+                      <th>Date</th>
+                      <th>Status</th>
                     </tr>
                     </thead>
                     
                     <tbody>
-                      <?php
-                        while($row = mysqli_fetch_array($result)){
-                      ?>
-                      <tr>                        
-                        <td><?php echo $row[0] ?></td>
-                        <td><?php
-                          if($row[1] != '0000-00-00 00:00:00')
-                          {
-                            echo $row[1];
-                          }
-                          else
-                          {
-                            echo "Currently Logged In.";
-                          }
-                        }
-                         ?></td>
-                      </tr>
                     <?php
-                }
-                else
-                {
-                  echo '<center><h1>No Latest Registration yet!</h1></center><br>';
-                }
-                 ?>
+                      while($row = mysqli_fetch_array($result)){
+                       ?>
+                      <tr>      
+                        <td><?php echo $row[0] ?></td>
+                        <td><?php echo date("l", strtotime($row[0])); ?></td>
+                        <td><?php 
+                          $status= $row[1];
+                          if ($gender == 1)
+                          { echo 'On-Time';}
+                          if ($gender == 2)
+                          { echo 'Late';}
+                          if ($gender == 3)
+                          { echo 'AWOL';}
+                          if ($gender == 4)
+                          { echo 'Half-Day';}
+                          if ($gender == 5)
+                          { echo 'On Leave';}
+                          if ($gender == 6)
+                          { echo 'Suspended';}
+                          else
+                          { echo 'Get Schedule';}
+
+                        ?></td>
+                      </tr>
+                    <?php }
+                   ?>  
                     </tbody>
                   </table>
                 </div>
