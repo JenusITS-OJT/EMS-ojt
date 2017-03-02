@@ -55,6 +55,7 @@ else
           <li class="active">Set Credentials</li>
         </ol>
       </section>
+      <br>
       <!-- Main content -->  
       <section class="content">
 
@@ -101,7 +102,7 @@ else
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Contact Number</label>
-                  <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact Number" value = "<?php echo $contact; ?>" readonly>
+                  <input type="number" class="form-control" id="contact" name="contact" placeholder="Contact Number" value = "<?php echo $contact; ?>" readonly>
                 </div>
               </div>              
 
@@ -125,7 +126,7 @@ else
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Basic Salary</label>
-                  <input type="text" class="form-control" id=basicpay name="basicpay" placeholder="Basic Salary" required>
+                  <input type="number" class="form-control" id=basicpay name="basicpay" placeholder="Basic Salary" required>
                 </div>
               </div>
 

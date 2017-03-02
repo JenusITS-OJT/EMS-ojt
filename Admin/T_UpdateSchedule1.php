@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <?php
     require('F_Connection.php');
-    require('S_Header.php');
-    require('S_Sidebar.php');
-    if (isset($_GET['datepicker'])){
+    if (isset($_GET['datepicker']) AND isset($_GET['id']) AND isset($_GET['sid']) ){
     $datepicker = $_GET['datepicker'];
     $empid = $_GET['id'];
     $sid = $_GET['sid'];
-  }
+    }
+    else
+    header("Location: T_UpdateSchedule.php");
 ?>
 <html>
 <head>
@@ -47,8 +47,9 @@
     }
   </style>
 </head>
-
 <body class="hold-transition sidebar-mini">
+<?php require('S_Header.php');?>
+<?php require('S_Sidebar.php');?>
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -66,76 +67,65 @@
         </ol>
       </section>
       <br>
-
-      <!-- Main content -->
       <section class="content">
-
         <div class="box box-warning">
-          <div class="box-header">
-            <b><h1 class="box-title">Update Employee's Schedule</h1></b>
+          <div class="box-header with-border">
+            <b><h1 class="box-title">Update Schedule</h1></b>
           </div>
-
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>* Fill out the required fields</small>
-
-          <div class="box-body" style="overflow-x:auto;">
-
-            <form action="F_T_UpdateSchedule.php" method="get">
-
-            <input type="hidden" name="empid" id="empid" value="<?php echo $empid; ?>"/>
-            <input type="hidden" name="sid" id="sid" value="<?php echo $sid; ?>"/>
-
-            <?php $sql="SELECT e.`user_id`,
-              CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) AS name,
-              s.`Starting_Time`,
-              s.`Time_Out`
-              FROM `Employee` e 
-              INNER JOIN schedule s
-              on e.`user_id`= s.`Emp_ID`
-              where e.`user_id` = $empid
-              and s.`id` = $sid";
-              $result = mysqli_query($con, $sql);
-              while($row = mysqli_fetch_array($result)){
-            ?>
-
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Set Schedule of</label>
-                    <input type="text" class="form-control" value="<?php echo $row[1]; ?>" readonly>
-                  </div>
+          <form action="F_T_UpdateSchedule.php" method="get">
+            <div class="box-body" style="overflow-x:auto;">
+              <input type="hidden" name="empid" id="empid" value="<?php echo $empid; ?>"/>
+              <input type="hidden" name="sid" id="sid" value="<?php echo $sid; ?>"/>
+              <?php $sql="SELECT e.`user_id`,
+                CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) AS name,
+                s.`Starting_Time`,
+                s.`Time_Out`
+                FROM `Employee` e 
+                INNER JOIN schedule s
+                on e.`user_id`= s.`Emp_ID`
+                where e.`user_id` = $empid
+                and s.`id` = $sid";
+                $result = mysqli_query($con, $sql);
+                while($row = mysqli_fetch_array($result)){
+              ?>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Set Schedule of</label>
+                  <input type="text" class="form-control" value="<?php echo $row[1]; ?>" readonly>
                 </div>
-
-
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Date of Schedule</label>
-                    <input type="date" class="form-control" id="datepicker2" name="datepicker2" value="<?php echo $datepicker?>">
-                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Date of Schedule</label>
+                  <input type="date" class="form-control" id="datepicker2" name="datepicker2" min="<?php echo $datepicker;?>" value="<?php echo $datepicker?>" required>
                 </div>
-
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Scheduled Time In</label><red>*</red>
-                    <input type="time" class="form-control" id="timein" name="timein" value="<?php echo $row[2]; ?>" required>
-                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Scheduled Time In</label><red>*</red>
+                  <input type="time" class="form-control" id="timein" name="timein" value="<?php echo $row[2]; ?>" required>
                 </div>
-
-            <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Scheduled Time Out  </label><red>*</red>
-                    <input type="time" class="form-control" id="timeout" name="timeout" value="<?php echo $row[3]; ?>" required>
-                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Scheduled Time Out</label><red>*</red>
+                  <input type="time" class="form-control" id="timeout" name="timeout" value="<?php echo $row[3]; ?>" required>
                 </div>
-
+              </div>
+            </div>
             <div class="box-footer" align="right">
-                  <button type="submit" class="btn btn-primary">Set Schedule</button>&nbsp;&nbsp;&nbsp;
-                  <a href = "T_UpdateSchedule.php"><button type="button" class="btn btn-default">Cancel</button></a>
-                </div>
-
-                <?php }?>
-
-            </form>
+              <button type="submit" class="btn btn-info btn-flat">
+                <i class="fa fa-save"></i>
+                Save
+              </button>
+              <a href="T_UpdateSchedule.php" type="button" class="btn btn-default btn-flat"">
+                <i class="fa fa-remove"></i>
+                Cancel
+              </a>
+            </div>
+            <?php }?>
+          </form>
         </div>
-
       </section>
     </div>
 

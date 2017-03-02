@@ -67,51 +67,38 @@
 
       <section class="content">
       <?php require('S_Successful.php');?>
-      <div class="box box-warning">
-          <div class="box-header">
+        <div class="box box-warning">
+          <div class="box-header with-border">
             <b><h1 class="box-title">Set Schedule</h1></b>
           </div>
 
-          <form action="T_SetSchedule.php" method="get">
-          <center>
           <div class="box-body" style="overflow-x:auto;">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="input-group date">
-                      <div class="input-group-addon">
-                        Check Date: 
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" value="<?php echo $datepicker ?>" required></input>
+            <form action="T_SetSchedule.php" method="get">                
+              <div class="col-md-3">
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                      Select Date :
                     </div>
-                    <!-- /.input group -->
-                  </td>
-                  <td>                     
-                      &nbsp; &nbsp;<button type="submit" class="btn btn-primary">Load Table</button>
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-              </tfoot>
-            </table>
-          </div>
-          <br>
-        </center>
-      </form>
-      </div>
-
-
-        <div class="box box-warning">
-          <div class="box-header">
-            <b><h1 class="box-title">Employee List</h1></b>
-          </div>
-
-          <div class="box-body" style="overflow-x:auto;">
+                    <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" value="<?php echo $datepicker ?>" min="<?php echo $datepicker;?>" required></input>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 pull-left">
+                <button type="submit" class="btn btn-primary btn-flat btn-sm">
+                  <i class="fa fa-share"></i>
+                  Go
+                </button>
+              </div>
+            </form>
+            <br>
+            <br>
             <table id="employeelist" class="table table-bordered table-striped">
 
-          <?php
+              <?php
                   $sql="SELECT e.`ID`,
                     CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) AS name, 
                     j.`job_title`, 
@@ -142,36 +129,32 @@
                   <th>Action</th>
                 </tr>
               </thead>
-
-              </thead>
-                <tbody>
-                  <?php
-                      while($row = mysqli_fetch_array($result)){
-                  ?>
-                  <tr>
-                    <?php $userid=$row[4] ?>
-                    <td><?php echo $row[0] ?></td>
-                    <td><?php echo $row[1] ?></td>
-                    <td><?php echo $row[3] ?></td>
-                    <td><?php echo $row[2] ?></td>
-                    <td>
-                      <div class="btn-group">
-                          <a href="T_SetSchedule1.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>"><button type="submit" class="btn btn-success btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span> 
-                            Set Schedule
-                          </button>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <?php }
-                   ?>                    
-                </tbody>
-              </tfoot>
-            </tfoot>
-          </table>
+              <tbody>
+                <?php
+                  while($row = mysqli_fetch_array($result)){
+                ?>
+                <tr>
+                  <?php $userid=$row[4] ?>
+                  <td><?php echo $row[0] ?></td>
+                  <td><?php echo $row[1] ?></td>
+                  <td><?php echo $row[3] ?></td>
+                  <td><?php echo $row[2] ?></td>
+                  <td>
+                    <div class="btn-group">
+                      <a href="T_SetSchedule1.php?id=<?php echo $userid;?>&datepicker=<?php echo $datepicker;?>">
+                        <button type="submit" class="btn btn-success btn-flat btn-sm">
+                          <i class="fa fa-edit"></i>
+                          Set Schedule
+                        </button>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <?php } ?>                    
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
       </section>
     </div>
 

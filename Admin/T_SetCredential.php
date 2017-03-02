@@ -50,6 +50,7 @@
           <li class="active">Set Credentials</li>
         </ol>
       </section>
+      <br>
       <!-- Main content -->  
       <section class="content">
         <div class="box box-warning">

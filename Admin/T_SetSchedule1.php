@@ -72,7 +72,7 @@
 
         <div class="box box-warning">
           <div class="box-header with-border">
-            <b><h1 class="box-title">Set Employee's Schedule</h1></b>
+            <b><h1 class="box-title">Set Schedule</h1></b>
           </div>
 
           <form action="F_T_SetSchedule.php" method="get">
@@ -99,14 +99,14 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Date From</label>
-                  <input type="date" class="form-control" id="datepicker1" name="datepicker1" value="<?php echo $datepicker?>" required></input>
+                  <input type="date" class="form-control" id="datepicker1" name="datepicker1" value="<?php echo $datepicker?>" min="<?php echo $datepicker;?>" required></input>
                 </div>
               </div>
 
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Date To</label>
-                  <input type="date" class="form-control" id="datepicker2" name="datepicker2" value="<?php echo $datepicker ?>" required></input>
+                  <input type="date" class="form-control" id="datepicker2" name="datepicker2" value="<?php echo $datepicker ?>" required min="<?php echo $datepicker;?>"></input>
                 </div>
               </div>
 
@@ -126,8 +126,14 @@
             </div>
 
             <div class="box-footer" align="right">
-              <button type="submit" class="btn btn-primary">Set Schedule</button>&nbsp;&nbsp;&nbsp;
-              <a href = "T_Set Schedule.php"><button type="button" class="btn btn-default">Cancel</button></a>
+              <button type="submit" class="btn btn-info btn-flat">
+                <i class="fa fa-save"></i>
+                Save
+              </button>
+              <a href="T_SetCredential.php" type="button" class="btn btn-default btn-flat"">
+                <i class="fa fa-remove"></i>
+                Cancel
+              </a>
             </div>
 
           </form>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
 <?php require('F_Connection.php');
-if (isset($_GET['id']))
-  $id = $_GET['id'];   
+if (isset($_GET['msg'])){
+  $datepicker = date("Y-m-d");  
+}  
 else
    header("Location: T_ManageAttendance.php");
 ?>
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -58,21 +59,41 @@ else
         </ol>
       </section>
       <br>
-
       <!-- Main content -->  
       <section class="content">
       <?php require('S_Unsuccessful.php');?>
         <!-- SELECT2 EXAMPLE -->
         <div class="box box-warning">
-
           <div class="box-header with-border">
-            <h3 class="box-title">Manage Attendance,
-              <?php echo date("l - F j, Y"); ?>
-            </h3>
+            <h3 class="box-title">
+              Manage Attendance
+            </h3>            
           </div>
-
           <div class="box-body" style="overflow-x:auto;">
-              <?php $sql="SELECT
+            <form action="T_ManageAttendance.php" method="get">                
+              <div class="col-md-3">
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                      Select Date :
+                    </div>
+                    <input type="date" class="form-control pull-right" id="datepicker" name="datepicker" value="<?php echo $datepicker ?>" required></input>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 pull-left">
+                <button type="submit" class="btn btn-primary btn-flat btn-sm">
+                  <i class="fa fa-share"></i>
+                  Go
+                </button>
+              </div>
+            </form>
+            <br>
+            <br>
+            <?php $sql="SELECT
                   CONCAT(e.`Last_Name`,', ',e.`First_Name`,' ',e.`Middle_Name`) as name,
                   DATE_FORMAT(s.`DATE`,'%b %d, %Y'), 
                   DATE_FORMAT(s.`DATE`,'%W'),
@@ -88,53 +109,51 @@ else
                     ON s.`Emp_ID` = e.`User_ID` 
                     LEFT JOIN `time` AS t
                     ON s.`Emp_ID` = t.`User_ID` AND DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(t.`Time_In`,'%M %d, %Y')
-                    WHERE DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT(NOW(),'%M %d, %Y')
+                    WHERE DATE_FORMAT(s.`DATE`,'%M %d, %Y') = DATE_FORMAT('$datepicker','%M %d, %Y')
                     AND s.`ID` NOT IN (SELECT `Schedule_ID` FROM `attendance`)
                     AND s.`Status` = 1
                     ORDER BY hour DESC"
                      ;  
                     $result = mysqli_query($con, $sql);
-                    ?>
-              <?php
                     $yes = mysqli_num_rows($result);
                     if($yes >= 1)
-                    { 
-                  ?>
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Employee Name</th>
-                    <th>Date</th>
-                    <th>Day</th>
-                    <th>Shift</th>
-                    <th>Time-In</th>
-                    <th>Time-Out</th>
-                    <th>Hours</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
+                    {
+            ?>
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Date</th>
+                  <th>Day</th>
+                  <th>Shift</th>
+                  <th>Time-In</th>
+                  <th>Time-Out</th>
+                  <th>Hours</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
                 
-                <tbody>
-                  <?php
-                    while($row = mysqli_fetch_array($result)){
-                      ?>
-                  <tr>
-                    <td><?php echo $row[0] ?></td>
-                    <td><?php echo $row[1] ?></td>
-                    <td><?php echo $row[2] ?></td>
-                    <td><?php echo $row[3] ?> - <?php echo $row[4] ?></td>
-                    <td><?php
-                          if($row[5] != '')
-                          {
-                            echo $row[5];
-                          }
-                          else
-                          {
-                            echo "Not Yet Logged In.";
-                          }                        
-                         ?>
-                    </td>
-                    <td><?php
+              <tbody>
+                <?php
+                  while($row = mysqli_fetch_array($result)){
+                ?>
+                <tr>
+                  <td><?php echo $row[0] ?></td>
+                  <td><?php echo $row[1] ?></td>
+                  <td><?php echo $row[2] ?></td>
+                  <td><?php echo $row[3] ?> - <?php echo $row[4] ?></td>
+                  <td><?php
+                    if($row[5] != '')
+                    {
+                      echo $row[5];
+                    }
+                    else
+                      {
+                        echo "Not Yet Logged In.";
+                      }                        
+                    ?>
+                  </td>
+                  <td><?php
                           if($row[6] != '12:00 AM')
                           {
                             echo $row[6];
@@ -148,8 +167,8 @@ else
                             echo "Not Yet Logged In.";
                           }                         
                          ?>
-                    </td>
-                    <td><?php
+                  </td>
+                  <td><?php
                           $break =  $row[7];                      
                           $hour =  $row[8];                      
                           if($hour != '-838:59:59')
@@ -177,28 +196,28 @@ else
                             echo "--";
                           }                                                   
                          ?>
-                    </td>
-                    <td>
-                      <form action="T_ManageAttendance1.php" method="get">
-                        <input type="hidden" name="id" value="<?php echo $row[9]; ?>">
-                        <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
-                          <i class="fa fa-edit"></i>
-                          Manage
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                  <?php }
+                  </td>
+                  <td>
+                    <form action="T_ManageAttendance1.php" method="get">
+                      <input type="hidden" name="id" value="<?php echo $row[9]; ?>">
+                      <input type="hidden" name="datepicker" value="<?php echo $datepicker; ?>">
+                      <button type="submit" class="btn btn-success btn-flat btn-sm"  value="Update">
+                        <i class="fa fa-edit"></i>
+                        Manage
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                <?php }
                   }
                   else
                   {
                     echo '<center><h1>No Attendance to Manage yet!</h1></center><br>';
                   }
-                   ?>
-                </tbody>
-              </table>
-            </div>       
-
+                ?>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     <!-- /.box -->
