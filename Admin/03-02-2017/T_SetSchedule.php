@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<?php
+<?php 
     require('F_Connection.php');
-    if (isset($_GET['msg']))
+    if (isset($_GET['datepicker'])){
+    $datepicker = $_GET['datepicker'];
+  }
+  else
     $datepicker = date("Y-m-d");
-    else
-    header("Location: T_SetSchedule.php");
   ?>
 <html>
 <head>
@@ -44,9 +45,9 @@
     }
   </style>
 </head>
+<body class="hold-transition sidebar-mini">
 <?php require('S_Header.php');?>
 <?php require('S_Sidebar.php');?>
-<body class="hold-transition sidebar-mini">
   <div class="wrapper">
   <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -64,9 +65,7 @@
         </ol>
       </section>
       <br>
-
       <section class="content">
-      <?php require('S_Unsuccessful.php');?>
         <div class="box box-warning">
           <div class="box-header with-border">
             <b><h1 class="box-title">Set Schedule</h1></b>
@@ -117,9 +116,7 @@
                     and e.`Date_Hired` is not null
                     GROUP BY e.`ID`";
                     $result = mysqli_query($con, $sql);
-                    $yes = mysqli_num_rows($result);
-                    if($yes >= 1)
-                    {
+                    $count = mysqli_num_rows($result);
                     ?>
 
               <thead>
@@ -152,13 +149,7 @@
                     </div>
                   </td>
                 </tr>
-                <?php }
-                }
-                  else
-                  {
-                    echo '<center><h1>Schedules Already Set!</h1></center><br>';
-                  }
-                ?>                  
+                <?php } ?>                    
               </tbody>
             </table>
           </div>

@@ -117,7 +117,9 @@
                     and e.`Date_Hired` is not null
                     GROUP BY e.`ID`";
                     $result = mysqli_query($con, $sql);
-                    $count = mysqli_num_rows($result);
+                    $yes = mysqli_num_rows($result);
+                    if($yes >= 1)
+                    {
                     ?>
 
               <thead>
@@ -150,7 +152,13 @@
                     </div>
                   </td>
                 </tr>
-                <?php } ?>                    
+                <?php }
+                }
+                  else
+                  {
+                    echo '<center><h1>Schedules Already Set!</h1></center><br>';
+                  }
+                ?>                  
               </tbody>
             </table>
           </div>

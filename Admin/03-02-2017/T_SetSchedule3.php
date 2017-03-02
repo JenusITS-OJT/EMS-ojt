@@ -66,7 +66,7 @@
       <br>
 
       <section class="content">
-      <?php require('S_Unsuccessful.php');?>
+      <?php require('S_Successful.php');?>
         <div class="box box-warning">
           <div class="box-header with-border">
             <b><h1 class="box-title">Set Schedule</h1></b>
@@ -117,9 +117,7 @@
                     and e.`Date_Hired` is not null
                     GROUP BY e.`ID`";
                     $result = mysqli_query($con, $sql);
-                    $yes = mysqli_num_rows($result);
-                    if($yes >= 1)
-                    {
+                    $count = mysqli_num_rows($result);
                     ?>
 
               <thead>
@@ -152,13 +150,7 @@
                     </div>
                   </td>
                 </tr>
-                <?php }
-                }
-                  else
-                  {
-                    echo '<center><h1>Schedules Already Set!</h1></center><br>';
-                  }
-                ?>                  
+                <?php } ?>                    
               </tbody>
             </table>
           </div>
